@@ -6,15 +6,13 @@
 class CEngine
 {
 public:
-	CEngine() = default;
+	CEngine();
 	~CEngine();
 
-	void SetupEngine(glm::vec2 const & pos);
 	void Draw();
 private:
 	void Redraw();
-	void ClearArray();
-	void InitEngine();
+	void InitEngine(std::vector<SShape> const & data);
 
 	glm::vec2 m_pos;
 	std::vector<std::shared_ptr<CDrawableObject>> m_segments;

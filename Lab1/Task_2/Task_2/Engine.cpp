@@ -2,26 +2,26 @@
 #include "Engine.h"
 #include "Circle.h"
 #include "Rectangle.h"
+#include "Parser.h"
 
 
+
+CEngine::CEngine()
+{
+	CParser parser("input.json");
+	InitEngine(parser.GetShapesData());
+}
 
 CEngine::~CEngine()
 {
 }
 
-void CEngine::SetupEngine(glm::vec2 const & pos)
-{
-	ClearArray();
-	m_pos = pos;
-}
-
 void CEngine::Draw()
 {
-	if (m_segments.empty())
+	for (auto &it : m_segments)
 	{
-		InitEngine();
+		it->Draw();
 	}
-	Redraw();
 }
 
 void CEngine::Redraw()
@@ -32,19 +32,21 @@ void CEngine::Redraw()
 	}
 }
 
-void CEngine::ClearArray()
+void CEngine::InitEngine(std::vector<SShape> const & data)
 {
-	m_segments.erase(m_segments.begin(), m_segments.end());
-}
-
-void CEngine::InitEngine()
-{
-	auto rect = std::make_shared<CRectangle>();
-	rect->SetupShape(m_pos, 150, 250, {0.f, 0.f, 0.f});
-	m_segments.push_back(rect);
-
-
-	auto rect2 = std::make_shared<CRectangle>();
-	rect2->SetupShape(m_pos, 120, 220, {1.f, 1.f, 1.f});
-	m_segments.push_back(rect2);
+	for (auto const &shape : data)
+	{
+		if (shape.type == "rectangle")
+		{
+			auto rect = std::make_shared<CRectangle>();
+			rect->SetupShape(shape.pos, shape.size.x, shape.size.y, shape.color);
+			m_segments.push_back(rect);
+		}
+		else if (shape.type == "circle")
+		{
+			auto rect = std::make_shared<CCircle>();
+			rect->SetupShape(shape.pos, shape.size.x, shape.color);
+			m_segments.push_back(rect);
+		}
+	}
 }

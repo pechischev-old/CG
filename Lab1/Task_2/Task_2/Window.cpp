@@ -17,7 +17,6 @@ void CWindow::OnUpdateWindow(float deltaSeconds)
 void CWindow::OnDrawWindow(const glm::ivec2 &size)
 {
 	SetupView(size);
-	m_engine->SetupEngine({ size.x / 2, size.y / 3 });
 	m_engine->Draw();
 }
 
