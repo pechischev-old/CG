@@ -10,7 +10,7 @@ public:
 	CRectangle() = default;
 	~CRectangle();
 
-	void SetupShape(glm::vec2 const & pos, float width, float height, glm::vec3 const & color);
+	void SetupShape(glm::vec2 const & pos, float width, float height, glm::vec3 const & color, float angle);
 
 private:
 	void Redraw() const override;
@@ -19,5 +19,6 @@ private:
 	glm::vec3 m_color;
 	float m_width;
 	float m_height;
+	float m_angle;
 };
 

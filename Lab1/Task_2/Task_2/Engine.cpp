@@ -39,7 +39,7 @@ void CEngine::InitEngine(std::vector<SShape> const & data)
 		if (shape.type == "rectangle")
 		{
 			auto rect = std::make_shared<CRectangle>();
-			rect->SetupShape(shape.pos, shape.size.x, shape.size.y, shape.color);
+			rect->SetupShape(shape.pos, shape.size.x, shape.size.y, shape.color, shape.angle);
 			m_segments.push_back(rect);
 		}
 		else if (shape.type == "circle")

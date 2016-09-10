@@ -1,22 +1,105 @@
 {
-	"shapes": [{
+	"shapes": [
+	{
 		"type": "circle",
-		"pos": {"x": 400, "y": 400},
+		"pos": {"x": 400, "y": 450},
 		"radius": 50,
 		"color": {"red": 1, "green": 1, "blue": 1}
 	},
 	{
-		"type": "rectangle",
-		"pos": {"x": 400, "y": 200},
-		"size": {"width": 150, "height": 220},
-		"color": {"red": 0.8, "green": 0.8, "blue": 0.8}
+		"type": "circle",
+		"pos": {"x": 400, "y": 450},
+		"radius": 15,
+		"color": {"red": 0, "green": 0, "blue": 0}
 	},
 	{
 		"type": "rectangle",
-		"pos": {"x": 400, "y": 220},
-		"size": {"width": 120, "height": 180},
+		"pos": {"x": 320, "y": 100},
+		"size": {"width": 150, "height": 220},
+		"color": {"red": 0.8, "green": 0.8, "blue": 0.8},
+		"rotation" : 0
+	},
+	{
+		"type": "rectangle",
+		"pos": {"x": 330, "y": 120},
+		"size": {"width": 130, "height": 200},
+		"color": {"red": 1, "green": 1, "blue": 1},
+		"rotation" : 0
+	},
+	{
+		"type": "rectangle",
+		"pos": {"x": 330, "y": 240},
+		"size": {"width": 130, "height": 80},
+		"color": {"red": 0, "green": 0, "blue": 0},
+		"rotation" : 0
+	},
+	{
+		"type": "circle",
+		"pos": {"x": 400, "y": 280},
+		"radius": 5,
 		"color": {"red": 1, "green": 1, "blue": 1}
-	}
+	},
+	{
+		"type": "circle",
+		"pos": {"x": 355, "y": 472},
+		"radius": 15,
+		"color": {"red": 0, "green": 0, "blue": 0}
+	},
 	
+	
+	{ 
+		"type": "rectangle",
+		"pos": {"x": 350, "y": 100},
+		"size": {"width": 25, "height": 20},
+		"color": {"red": 0, "green": 0.5, "blue": 0.2},
+		"rotation" : 0
+	},
+	{
+		"type": "rectangle",
+		"pos": {"x": 415, "y": 100},
+		"size": {"width": 25, "height": 20},
+		"color": {"red": 0, "green": 0.5, "blue": 0.2},
+		"rotation" : 0
+	},
+	{
+		"_type" : "впрыск",
+		"type": "rectangle",
+		"pos": {"x": 387, "y": 74},
+		"size": {"width": 15, "height": 50},
+		"color": {"red": 0, "green": 0, "blue": 0},
+		"rotation" : 0
+	},
+	{
+		"_type" : "впускной клапан",
+		"type": "rectangle",
+		"pos": {"x": 347, "y": 114},
+		"size": {"width": 32, "height": 8},
+		"color": {"red": 0, "green": 0, "blue": 0},
+		"rotation" : 0
+	},
+	{
+		"_type" : "выпускной клапан",
+		"type": "rectangle",
+		"pos": {"x": 413, "y": 114},
+		"size": {"width": 32, "height": 8},
+		"color": {"red": 0, "green": 0, "blue": 0},
+		"rotation" : 0
+	},
+	
+	
+	{
+		"type": "rectangle",
+		"pos": {"x": 374, "y": 440},
+		"size": {"width": 10, "height": 45},
+		"color": {"red": 0, "green": 0, "blue": 0},
+		"rotation" : 1.1
+	},
+	{
+		"type": "rectangle",
+		"pos": {"x": 365, "y": 310},
+		"size": {"width": 15, "height": 170},
+		"color": {"red": 0, "green": 0, "blue": 0},
+		"rotation" : 0.25
+	}
 	]
 }

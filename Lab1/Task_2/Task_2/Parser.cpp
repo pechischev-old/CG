@@ -45,7 +45,8 @@ void CParser::ParseInputData(std::string const & input)
 		{
 			auto shapeSize = shape.at("size");
 			glm::vec2 size = { shapeSize.at("width"), shapeSize.at("height") };
-			SShape figure = SShape(type, pos, size, color);
+			auto angle = shape.at("rotation");
+			SShape figure = SShape(type, pos, size, color, angle);
 			m_shapesData.push_back(figure);
 		}
 		else if (type == "circle")
