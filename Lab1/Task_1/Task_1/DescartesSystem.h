@@ -16,7 +16,7 @@ private:
 	void ClearVector();
 	void InitSystem(); 
 	void CreateSegment(glm::vec2 const &pos, float w, float h, float stepX, float stepY, int count);
-
+	void DrawArrowOnPoints(glm::vec2 const &point1, glm::vec2 const &point2, glm::vec2 const &point3);
 	std::vector<std::shared_ptr<CRectangle>> m_systems;
 	glm::vec2 m_pos;
 };
