@@ -1,12 +1,15 @@
 #include "stdafx.h"
 #include "Window.h"
-
+#include "Parser.h"
+#include "Circle.h"
+#include "Rectangle.h"
 
 
 CWindow::CWindow()
 {
 	SetBackgroundColor({ 0.f, 0.5f, 0.2f, 1.f });
-	m_engine = std::make_unique<CEngine>();
+	CParser parser("input.json");
+	InitEngine(parser.GetShapesData());
 }
 
 void CWindow::OnUpdateWindow(float deltaSeconds)
@@ -17,7 +20,10 @@ void CWindow::OnUpdateWindow(float deltaSeconds)
 void CWindow::OnDrawWindow(const glm::ivec2 &size)
 {
 	SetupView(size);
-	m_engine->Draw();
+	for (auto &it : m_engine)
+	{
+		it->Draw();
+	}
 }
 
 void CWindow::SetupView(const glm::ivec2 &size)
@@ -29,4 +35,25 @@ void CWindow::SetupView(const glm::ivec2 &size)
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(glm::value_ptr(matrix));
 	glMatrixMode(GL_MODELVIEW);
+}
+
+
+
+void CWindow::InitEngine(std::vector<SShape> const & data)
+{
+	for (auto const &shape : data)
+	{
+		if (shape.type == "rectangle")
+		{
+			auto rect = std::make_shared<CRectangle>();
+			rect->SetupShape(shape.pos, shape.size.x, shape.size.y, shape.color, shape.angle);
+			m_engine.push_back(rect);
+		}
+		else if (shape.type == "circle")
+		{
+			auto rect = std::make_shared<CCircle>();
+			rect->SetupShape(shape.pos, shape.size.x, shape.color);
+			m_engine.push_back(rect);
+		}
+	}
 }
