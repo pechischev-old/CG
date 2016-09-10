@@ -48,8 +48,8 @@ void CDescartesSystem::InitSystem()
 	CreateSegment(m_pos, 10, 4, 0, STEP_DIVIDERS, COUNT_DIVIDERS_ON_HALF_Y);
 	CreateSegment(m_pos, 10, 4, 0, -STEP_DIVIDERS, COUNT_DIVIDERS_ON_HALF_Y);
 
-	DrawArrow({ m_pos.x, -1 }, { m_pos.x - 10, 10 }, { m_pos.x + 10, 10 });
-	DrawArrow({ m_pos.x * 2 + 1, m_pos.y }, { m_pos.x * 2 - 10, m_pos.y + 10 }, { m_pos.x * 2 - 10, m_pos.y - 10 });
+	DrawArrowOnPoints({ m_pos.x, -1 }, { m_pos.x - 10, 10 }, { m_pos.x + 10, 10 });
+	DrawArrowOnPoints({ m_pos.x * 2 + 1, m_pos.y }, { m_pos.x * 2 - 10, m_pos.y + 10 }, { m_pos.x * 2 - 10, m_pos.y - 10 });
 }
 
 void CDescartesSystem::CreateSegment(glm::vec2 const &pos, float w, float h, float stepX, float stepY, int count)
@@ -62,7 +62,7 @@ void CDescartesSystem::CreateSegment(glm::vec2 const &pos, float w, float h, flo
 	}
 }
 
-void CDescartesSystem::DrawArrow(glm::vec2 const &point1, glm::vec2 const &point2, glm::vec2 const &point3)
+void CDescartesSystem::DrawArrowOnPoints(glm::vec2 const &point1, glm::vec2 const &point2, glm::vec2 const &point3)
 {
 	
 	glBegin(GL_TRIANGLES);
