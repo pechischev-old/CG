@@ -159,7 +159,6 @@ copy $(SDK2015)\glew-1.13.0\bin\Release\Win32\glew32.dll</Command>
     <ClInclude Include="Circle.h" />
     <ClInclude Include="DispatchEvent.h" />
     <ClInclude Include="DrawableObject.h" />
-    <ClInclude Include="Engine.h" />
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Parser.h" />
@@ -173,7 +172,6 @@ copy $(SDK2015)\glew-1.13.0\bin\Release\Win32\glew32.dll</Command>
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="DispatchEvent.cpp" />
     <ClCompile Include="DrawableObject.cpp" />
-    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Rectangle.cpp" />

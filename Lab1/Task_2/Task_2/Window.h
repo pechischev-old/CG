@@ -1,6 +1,6 @@
 #pragma once
 #include "DispatchEvent.h"
-#include "Engine.h"
+#include "DrawableObject.h"
 
 
 class CWindow : public CAbstractInputControlWindow
