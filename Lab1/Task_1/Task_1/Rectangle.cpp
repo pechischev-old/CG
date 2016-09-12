@@ -2,6 +2,14 @@
 #include "Rectangle.h"
 
 
+CRectangle::CRectangle(glm::vec2 const & pos, float width, float height)
+	: m_pos(pos)
+	, m_width(width)
+	, m_height(height)
+{
+}
+
+
 CRectangle::~CRectangle()
 {
 }

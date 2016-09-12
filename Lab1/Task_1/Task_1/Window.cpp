@@ -7,7 +7,7 @@ CWindow::CWindow()
 {
 	SetBackgroundColor({ 0.f, 0.5f, 0.2f, 1.f });
 	m_system = std::make_unique<CDescartesSystem>();
-	m_grafic = std::make_unique<CGrafic>();
+	m_grafic = std::make_unique<CGrafic>(glm::vec2{0, 0}, 100);
 }
 
 void CWindow::OnUpdateWindow(float deltaSeconds)

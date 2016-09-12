@@ -12,8 +12,9 @@ CDescartesSystem::~CDescartesSystem()
 
 void CDescartesSystem::SetupSystem(glm::ivec2 const & pos)
 {
-	ClearVector();
-	m_pos = {pos.x / 2, pos.y / 2};
+	m_systems.clear();
+	m_pos = {pos.x / 2, pos.y / 2};	
+	static_assert(sizeof(CRectangle) == 24, "wrong size");
 }
 
 void CDescartesSystem::Draw() 
@@ -29,13 +30,8 @@ void CDescartesSystem::Redraw()
 {
 	for (auto &it : m_systems)
 	{
-		it->Draw();
+		it.Draw();
 	}
-}
-
-void CDescartesSystem::ClearVector()
-{
-	m_systems.erase(m_systems.begin(), m_systems.end());
 }
 
 
@@ -54,11 +50,9 @@ void CDescartesSystem::InitSystem()
 
 void CDescartesSystem::CreateSegment(glm::vec2 const &pos, float w, float h, float stepX, float stepY, int count)
 {
-	for (auto i = 0; i < count; ++i)
+	for (int i = 0; i < count; ++i)
 	{
-		auto segment = std::make_shared<CRectangle>();
-		segment->SetupShape({ pos.x + stepX * i, pos.y + stepY * i }, w, h);
-		m_systems.push_back(segment);
+		m_systems.emplace_back(glm::vec2{ pos.x + stepX * i, pos.y + stepY * i }, w, h);
 	}
 }
 

@@ -2,6 +2,12 @@
 #include "Grafic.h"
 
 
+CGrafic::CGrafic(glm::vec2 const & pos, float scale)
+	: m_pos(pos)
+	, m_scale(scale)
+{
+}
+
 CGrafic::~CGrafic()
 {
 }
