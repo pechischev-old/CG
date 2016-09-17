@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 #include "DrawableObject.h"
 
 
@@ -23,6 +23,12 @@ void CDrawableObject::Draw() const
 
 	// вызываем ранее созданный дисплейный список
 	glCallList(m_displayList);
+}
+
+void CDrawableObject::SetSizeWindow(glm::ivec2 const & size)
+{
+	DeleteList();
+	m_sizeWindow = size;
 }
 
 void CDrawableObject::DeleteList() 

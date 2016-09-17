@@ -1,7 +1,10 @@
 #pragma once
 #include "DispatchEvent.h"
+#include "Shedule.h"
 
 
+static const unsigned int WINDOW_WIDTH = 800;
+static const unsigned int WINDOW_HEIGTH = 600;
 
 class CWindow : public CAbstractInputControlWindow
 {
@@ -12,8 +15,8 @@ public:
 protected:
 	void OnUpdateWindow(float deltaSeconds) override;
 	void OnDrawWindow(const glm::ivec2 &size) override;
-
+	void OnKeyDown(const SDL_KeyboardEvent & event) override;
 private:
 	void SetupView(const glm::ivec2 &size);
-	float m_time = 0.f;
+	CShedule m_shedule;
 };

@@ -29,4 +29,22 @@
 #include <cmath>
 
 
+struct SShape
+{
+	SShape() = delete;
+	SShape(std::string const &type, glm::vec2 const & pos, glm::vec2 const & size, glm::vec3 const & color, float const & angle = 0)
+		: type(type)
+		, pos(pos)
+		, size(size)
+		, color(color)
+		, angle(angle)
+	{}
+	std::string type;
+	glm::vec2 pos;
+	glm::vec3 color;
+	glm::vec2 size;
+	float angle;
+};
+
+
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

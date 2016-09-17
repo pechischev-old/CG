@@ -2,21 +2,29 @@
 #include "Window.h"
 
 
-
 CWindow::CWindow()
+	: m_shedule(WINDOW_WIDTH, WINDOW_HEIGTH)
 {
-	SetBackgroundColor({ 0.f, 0.5f, 0.2f, 1.f });
+	SetBackgroundColor({ 1.f, 1.f, 1.f, 1.f });
 	
 }
 
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
-	m_time += deltaSeconds;
+	m_shedule.Update(deltaSeconds);
 }
 
 void CWindow::OnDrawWindow(const glm::ivec2 &size)
 {
 	SetupView(size);
+
+	m_shedule.SetSizeWindow(size.x, size.y);
+	m_shedule.Draw();
+}
+
+void CWindow::OnKeyDown(const SDL_KeyboardEvent & event)
+{
+	m_shedule.OnKeyDown(event);
 }
 
 void CWindow::SetupView(const glm::ivec2 &size)

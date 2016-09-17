@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Файлы ресурсов\model">
+      <UniqueIdentifier>{f18271b5-911c-44d7-841c-472f91f6fd9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\view">
+      <UniqueIdentifier>{1711975c-fc27-426b-a9de-e1c318e0588c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -30,16 +36,25 @@
     <ClInclude Include="DispatchEvent.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="DrawableObject.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="IDrawable.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="Rectangle.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Window.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Parser.h">
+      <Filter>Файлы ресурсов\model</Filter>
+    </ClInclude>
+    <ClInclude Include="Shedule.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="view\IDrawable.h">
+      <Filter>Файлы ресурсов\view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\DrawableObject.h">
+      <Filter>Файлы ресурсов\view</Filter>
+    </ClInclude>
+    <ClInclude Include="view\Rectangle.h">
+      <Filter>Файлы ресурсов\view</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSystem.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,17 +68,31 @@
     <ClCompile Include="DispatchEvent.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="DrawableObject.cpp">
+    <ClCompile Include="Window.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Shedule.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="model\Parser.cpp">
+      <Filter>Файлы ресурсов\model</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Rectangle.cpp">
+    <ClCompile Include="view\DrawableObject.cpp">
+      <Filter>Файлы ресурсов\view</Filter>
+    </ClCompile>
+    <ClCompile Include="view\Rectangle.cpp">
+      <Filter>Файлы ресурсов\view</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSystem.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="model\figures.json">
+      <Filter>Файлы ресурсов\model</Filter>
+    </None>
   </ItemGroup>
 </Project>
