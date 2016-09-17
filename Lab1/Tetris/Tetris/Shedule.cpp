@@ -25,7 +25,7 @@ void CShedule::SetSizeWindow(unsigned int width, unsigned int height)
 
 bool CShedule::OnKeyDown(const SDL_KeyboardEvent & event)
 {
-	return false;
+	return m_system.OnKeyDown(event);
 }
 
 void CShedule::Redraw() const

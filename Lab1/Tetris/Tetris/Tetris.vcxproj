@@ -155,7 +155,9 @@ copy $(SDK2015)\glew-1.13.0\bin\Release\Win32\glew32.dll</Command>
   <ItemGroup>
     <ClInclude Include="AbstractWindow.h" />
     <ClInclude Include="DispatchEvent.h" />
+    <ClInclude Include="Figure.h" />
     <ClInclude Include="GameSystem.h" />
+    <ClInclude Include="GlassModel.h" />
     <ClInclude Include="model\Parser.h" />
     <ClInclude Include="Shedule.h" />
     <ClInclude Include="stdafx.h" />
@@ -168,7 +170,9 @@ copy $(SDK2015)\glew-1.13.0\bin\Release\Win32\glew32.dll</Command>
   <ItemGroup>
     <ClCompile Include="AbstractWindow.cpp" />
     <ClCompile Include="DispatchEvent.cpp" />
+    <ClCompile Include="Figure.cpp" />
     <ClCompile Include="GameSystem.cpp" />
+    <ClCompile Include="GlassModel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model\Parser.cpp" />
     <ClCompile Include="Shedule.cpp" />
