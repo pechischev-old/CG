@@ -36,15 +36,45 @@ void CGlassModel::ClearFullLine()
 {
 }
 
-void CGlassModel::MoveFigure()
+void CGlassModel::MoveFigure() // смотреть тип движения и задавать соответствующие координаты
 {
+	if (!CanMoveFigure())
+	{
+		return;
+	}
 	m_field = m_copyField;
+	auto shift = m_figure->GetPosition();
+	switch (m_figure->GetTypeMove()) 
+	{
+	case TypeMove::Direction::Left:
+		shift.x = (--shift.x > 0 ? shift.x : 1);
+		break;
+	case TypeMove::Direction::Right:
+		shift.x = (++shift.x < FIELD_WIDTH ? shift.x : FIELD_WIDTH - 1);
+		break;
+	case TypeMove::Direction::Down:
+		shift.y = (++shift.y < FIELD_HEIGHT ? shift.y : FIELD_HEIGHT - 1);
+		break;
+	}
+	shift.y = (++shift.y < FIELD_HEIGHT ? shift.y : FIELD_HEIGHT - 1);
+	m_figure->SetPosition(glm::vec2(shift));
+	std::cout << m_figure->GetPosition().x << "  " << m_figure->GetPosition().y << std::endl;
+	auto sizeFigure = m_figure->GetSize();
+
+
+
 }
 
-void CGlassModel::SetFigure()
+void CGlassModel::SetFigure(CFigure* figure)
 {
 	m_copyField = m_field;
+	m_figure = figure;
+	m_figure->SetPosition(glm::vec2(FIELD_WIDTH / 3, 0));
+}
 
+bool CGlassModel::CanMoveFigure()
+{
+	return m_figure;
 }
 
 void CGlassModel::FillField()

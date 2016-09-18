@@ -15,6 +15,7 @@ CShedule::~CShedule()
 
 void CShedule::Update(float deltaSeconds)
 {
+	m_system.Update(deltaSeconds);
 }
 
 void CShedule::SetSizeWindow(unsigned int width, unsigned int height)

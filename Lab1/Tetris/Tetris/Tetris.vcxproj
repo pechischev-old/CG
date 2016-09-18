@@ -158,7 +158,6 @@ copy $(SDK2015)\glew-1.13.0\bin\Release\Win32\glew32.dll</Command>
     <ClInclude Include="Figure.h" />
     <ClInclude Include="GameSystem.h" />
     <ClInclude Include="GlassModel.h" />
-    <ClInclude Include="model\Parser.h" />
     <ClInclude Include="Shedule.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -174,7 +173,6 @@ copy $(SDK2015)\glew-1.13.0\bin\Release\Win32\glew32.dll</Command>
     <ClCompile Include="GameSystem.cpp" />
     <ClCompile Include="GlassModel.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="model\Parser.cpp" />
     <ClCompile Include="Shedule.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -185,9 +183,6 @@ copy $(SDK2015)\glew-1.13.0\bin\Release\Win32\glew32.dll</Command>
     <ClCompile Include="view\DrawableObject.cpp" />
     <ClCompile Include="view\Rectangle.cpp" />
     <ClCompile Include="Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="model\figures.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -39,9 +39,6 @@
     <ClInclude Include="Window.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="model\Parser.h">
-      <Filter>Файлы ресурсов\model</Filter>
-    </ClInclude>
     <ClInclude Include="Shedule.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -80,9 +77,6 @@
     <ClCompile Include="Shedule.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="model\Parser.cpp">
-      <Filter>Файлы ресурсов\model</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -101,10 +95,5 @@
     <ClCompile Include="Figure.cpp">
       <Filter>Файлы ресурсов\model</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="model\figures.json">
-      <Filter>Файлы ресурсов\model</Filter>
-    </None>
   </ItemGroup>
 </Project>

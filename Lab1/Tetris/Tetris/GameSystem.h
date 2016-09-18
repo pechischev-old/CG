@@ -1,9 +1,11 @@
 #pragma once
-#include "model\Parser.h"
 #include <map>
 #include <vector>
 #include "GlassModel.h"
 #include "Figure.h"
+#include <memory>
+
+using FormsFigures = std::map<std::string, std::vector<std::vector<std::string>>>;
 
 class CGameSystem
 {
@@ -16,8 +18,9 @@ public:
 protected:
 	void CreateFigure();
 private:
-	std::map<std::string, std::vector<std::vector<std::string>>> m_formsFiqures;
+	float m_time = 0;
+	FormsFigures m_formsFiqures;
 	CGlassModel m_glassModel;
-	CFigure* m_pFigure = nullptr;
+	std::shared_ptr<CFigure> m_pFigure;
 };
 
