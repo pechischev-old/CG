@@ -22,6 +22,7 @@ void CWindow::OnDrawWindow(const glm::ivec2 &size)
 	SetupView(size);
 	for (auto &it : m_engine)
 	{
+		it->SetSizeWindow(size);
 		it->Draw();
 	}
 }
@@ -45,15 +46,11 @@ void CWindow::InitEngine(std::vector<SShape> const & data)
 	{
 		if (shape.type == "rectangle")
 		{
-			auto rect = std::make_shared<CRectangle>();
-			rect->SetupShape(shape.pos, shape.size.x, shape.size.y, shape.color, shape.angle);
-			m_engine.push_back(rect);
+			m_engine.emplace_back(std::make_unique<CRectangle>(glm::vec2(shape.pos), shape.size.x, shape.size.y, shape.color, shape.angle));
 		}
 		else if (shape.type == "circle")
 		{
-			auto rect = std::make_shared<CCircle>();
-			rect->SetupShape(shape.pos, shape.size.x, shape.color);
-			m_engine.push_back(rect);
+			m_engine.emplace_back(std::make_unique<CCircle>(glm::vec2(shape.pos), shape.size.x, shape.color));
 		}
 	}
 }

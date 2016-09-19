@@ -4,18 +4,17 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
-CRectangle::~CRectangle()
+CRectangle::CRectangle(glm::vec2 const & pos, float width, float height, glm::vec3 const & color, float angle)
+	: m_pos(pos)
+	, m_width(width)
+	, m_height(height)
+	, m_color(color)
+	, m_angle(angle)
 {
 }
 
-void CRectangle::SetupShape(glm::vec2 const & pos, float width, float height, glm::vec3 const & color, float angle)
+CRectangle::~CRectangle()
 {
-	CDrawableObject::DeleteList();
-	m_pos = pos;
-	m_width = width;
-	m_height = height;
-	m_color = color;
-	m_angle = angle;
 }
 
 void CRectangle::Redraw() const

@@ -25,6 +25,12 @@ void CDrawableObject::Draw() const
 	glCallList(m_displayList);
 }
 
+void CDrawableObject::SetSizeWindow(glm::ivec2 const & size)
+{
+	DeleteList();
+	m_sizeWindow = size;
+}
+
 void CDrawableObject::DeleteList() 
 {
 	if (m_displayList)

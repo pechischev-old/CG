@@ -7,15 +7,19 @@
 class CCircle : public CDrawableObject
 {
 public:
-	CCircle() = default;
+	CCircle(glm::vec2 const & pos, float radius, glm::vec3 const & color);
+	CCircle(CCircle && obj) = default;
+	CCircle(CCircle const & obj) = delete;
+	CCircle& operator =(CCircle && obj) = default;
+	CCircle& operator =(CCircle const & obj) = delete;
 	~CCircle();
 
-	void SetupShape(glm::vec2 const & pos, float radius, glm::vec3 const & color);
-
+	
 private:
 	void Redraw() const override;
+	void Scale();
 
-	glm::vec2 m_pos;
+	glm::vec2 m_pos;		
 	glm::vec3 m_color;
 	float m_radius;
 };

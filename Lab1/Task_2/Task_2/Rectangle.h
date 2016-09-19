@@ -7,10 +7,12 @@
 class CRectangle : public CDrawableObject
 {
 public:
-	CRectangle() = default;
+	CRectangle(glm::vec2 const & pos, float width, float height, glm::vec3 const & color, float angle);
+	CRectangle(CRectangle && obj) = default;
+	CRectangle(CRectangle const & obj) = delete;
+	CRectangle& operator =(CRectangle && obj) = default;
+	CRectangle& operator =(CRectangle const & obj) = delete;
 	~CRectangle();
-
-	void SetupShape(glm::vec2 const & pos, float width, float height, glm::vec3 const & color, float angle);
 
 private:
 	void Redraw() const override;
