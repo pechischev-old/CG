@@ -13,7 +13,7 @@ namespace
 		l_L
 	};
 	static const std::string SQUARE = "square";
-	static const std::string LINE = "square";
+	static const std::string LINE = "line";
 	static const std::string L_L = "l-L";
 
 	int GetRandomNumberForSection(int begin, int end) {
@@ -49,10 +49,11 @@ void CGameSystem::Update(float deltaSeconds)
 	{
 		if (!m_glassModel.CanMoveFigure())
 		{
+			m_glassModel.ClearFullLine();
 			CreateFigure();
 		}
 		m_glassModel.MoveFigure();
-		m_glassModel.ClearFullLine();
+		//m_glassModel.ClearFullLine();
 		
 		m_time = 0;
 	}

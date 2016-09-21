@@ -33,6 +33,33 @@ CGlassModel::~CGlassModel()
 
 void CGlassModel::ClearFullLine()
 {
+	std::cout << "enter "<< std::endl;
+	for (size_t it = 0; it < m_field.size() - 1;)
+	{
+		bool isFullLine = true;
+		for (auto const & symbol : m_field[it])
+		{
+			if (symbol == SYMBOL_WALL)
+			{
+				continue;
+			}
+			if (symbol != SYMBOL_STATIC_FIGURE)
+			{
+				isFullLine = false;
+				break;
+			}
+		}
+		if (isFullLine)
+		{
+			std::cout << " full line" << std::endl;
+			m_field.erase(m_field.begin() + it);
+			m_field.insert(m_field.begin(), m_emptyLine);
+			continue;
+		}
+		++it;
+	}
+	//m_field = m_copyField;
+	//m_copyField = m_field;
 }
 
 void CGlassModel::MoveFigure() 
@@ -107,11 +134,13 @@ bool CGlassModel::CanMoveFigure()
 void CGlassModel::FillField()
 {
 	m_field.resize(FIELD_HEIGHT);
+	m_emptyLine.resize(FIELD_WIDTH, SYMBOL_EMPTY_SPACE);
+	m_emptyLine.front() = SYMBOL_WALL;
+	m_emptyLine.back() = SYMBOL_WALL;
+
 	for (auto & line : m_field)
 	{
-		line.resize(FIELD_WIDTH, SYMBOL_EMPTY_SPACE);
-		line.front() = SYMBOL_WALL;
-		line.back() = SYMBOL_WALL;
+		line = m_emptyLine;
 	}
 	for (auto & cell : m_field.back())
 	{
