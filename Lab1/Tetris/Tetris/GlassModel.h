@@ -16,6 +16,7 @@ public:
 	bool CanMoveFigure();
 private:
 	void FillField();
+	void ProcessCollisions(glm::ivec2 & newPos, glm::ivec2 const & oldPos );
 private:
 	std::vector<std::vector<char>> m_field;
 	std::vector<std::vector<char>> m_copyField;

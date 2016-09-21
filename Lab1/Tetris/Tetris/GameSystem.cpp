@@ -1,24 +1,35 @@
 #include "stdafx.h"
 #include "GameSystem.h"
+#include "random"
 
 using namespace std;
 
+namespace 
+{
+	enum TypeFigure
+	{
+		square = 0,
+		line,
+		l_L
+	};
+	static const std::string SQUARE = "square";
+	static const std::string LINE = "square";
+	static const std::string L_L = "l-L";
+
+	int GetRandomNumberForSection(int begin, int end) {
+		assert(begin < end);
+		random_device rd;
+		mt19937 gen(rd());
+		uniform_int_distribution<int> dist(begin, end);
+		return dist(gen);
+	}
+}
+
 CGameSystem::CGameSystem()
 {
-	m_formsFiqures = { { "square", { { "##", "##" }} },
-					   { "line", {{ "####" }, { "#", "#", "#", "#" }} } };
-	
-	/*for (auto key : m_formsFiqures)
-	{
-		for (auto forms : key.second)
-		{
-			for (auto form : forms)
-			{
-				cout << form << endl;
-			}
-		}
-		cout << endl;
-	}*/
+	m_formsFiqures = { { SQUARE, { { "##", "##" }} },
+					   { LINE, {{ "####" }, { "#", "#", "#", "#" }} },
+					   { L_L, { { "#", "#", "##" },{ "###", "#" },{ "##", " #", " #"}, {"  #", "###"} } } };
 }
 
 
@@ -28,8 +39,13 @@ CGameSystem::~CGameSystem()
 
 void CGameSystem::Update(float deltaSeconds)
 {
+	if (m_isPause)
+	{
+		return;
+	}
+
 	m_time += deltaSeconds;
-	if (m_time >= 0.15)
+	if (m_time >= m_speed)
 	{
 		if (!m_glassModel.CanMoveFigure())
 		{
@@ -44,7 +60,21 @@ void CGameSystem::Update(float deltaSeconds)
 
 void CGameSystem::CreateFigure()
 {
-	m_pFigure = std::make_shared<CFigure>(m_formsFiqures["line"]);
+	auto id = static_cast<TypeFigure> (GetRandomNumberForSection(0, 2));
+	std::string typeFigure;
+	switch (id)
+	{
+	case TypeFigure::line:
+		typeFigure = LINE;
+		break;
+	case TypeFigure::square:
+		typeFigure = SQUARE;
+		break;
+	case TypeFigure::l_L:
+		typeFigure = L_L;
+		break;
+	}
+	m_pFigure = std::make_shared<CFigure>(m_formsFiqures[typeFigure]);
 	m_glassModel.SetFigure(m_pFigure.get());
 }
 
@@ -68,9 +98,13 @@ bool CGameSystem::OnKeyDown(const SDL_KeyboardEvent & event)
 			return true;
 		case SDLK_DOWN:
 		case SDLK_s:
-			m_pFigure->SetTypeMove(TypeMove::Direction::Down);
+			//m_speed = 0.02f;
+			return true;
+		case SDLK_p:
+			m_isPause = !m_isPause;
 			return true;
 		}
+		//m_speed = 0.05f;
 	}
 	return false;
 }

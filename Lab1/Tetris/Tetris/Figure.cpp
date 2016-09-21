@@ -30,24 +30,30 @@ void CFigure::Rotate()
 	CalculateSize();
 }
 
-void CFigure::SetPosition(glm::vec2 const & pos)
+void CFigure::SetPosition(glm::ivec2 const & pos)
 {
 	m_pos = pos;
 }
 
-glm::vec2 CFigure::GetPosition() const
+glm::ivec2 CFigure::GetPosition() const
 {
 	return m_pos;
 }
 
-glm::vec2 CFigure::GetSize() const
+glm::ivec2 CFigure::GetSize() const
 {
-	return glm::vec2(m_width, m_height);
+	return glm::ivec2(m_width, m_height);
+}
+
+std::vector<std::string> CFigure::GetForm() const
+{
+	return m_currentForm;
 }
 
 void CFigure::CalculateSize()
 {
 	m_height = m_currentForm.size();
+	m_width = 0;
 	for (auto const & line : m_currentForm)
 	{
 		m_width = std::max(m_width, line.size());

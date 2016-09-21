@@ -19,6 +19,8 @@ protected:
 	void CreateFigure();
 private:
 	float m_time = 0;
+	float m_speed = 0.03f;
+	bool m_isPause = false;
 	FormsFigures m_formsFiqures;
 	CGlassModel m_glassModel;
 	std::shared_ptr<CFigure> m_pFigure;
