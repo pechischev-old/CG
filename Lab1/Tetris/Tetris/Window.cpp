@@ -27,6 +27,11 @@ void CWindow::OnKeyDown(const SDL_KeyboardEvent & event)
 	m_shedule.OnKeyDown(event);
 }
 
+void CWindow::OnKeyUp(const SDL_KeyboardEvent & event)
+{
+	m_shedule.OnKeyUp(event);
+}
+
 void CWindow::SetupView(const glm::ivec2 &size)
 {
 	// Матрица ортографического проецирования изображения в трёхмерном пространстве

@@ -29,6 +29,12 @@ bool CShedule::OnKeyDown(const SDL_KeyboardEvent & event)
 	return m_system.OnKeyDown(event);
 }
 
-void CShedule::Redraw() const
+bool CShedule::OnKeyUp(const SDL_KeyboardEvent & event)
 {
+	return m_system.OnKeyUp(event);
+}
+
+void CShedule::Draw() const
+{
+	m_system.Draw();
 }

@@ -25,6 +25,10 @@ TypeMove::Direction CFigure::GetTypeMove() const
 
 void CFigure::Rotate()
 {
+	if (!m_canRotate)
+	{
+		return;
+	}
 	m_forms.push_back(m_currentForm);
 	MakeCurrentForm();
 	CalculateSize();
@@ -33,6 +37,11 @@ void CFigure::Rotate()
 void CFigure::SetPosition(glm::ivec2 const & pos)
 {
 	m_pos = pos;
+}
+
+void CFigure::CanRotate(bool canRotate)
+{
+	m_canRotate = canRotate;
 }
 
 glm::ivec2 CFigure::GetPosition() const

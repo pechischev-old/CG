@@ -19,6 +19,9 @@
     <Filter Include="Файлы ресурсов\view">
       <UniqueIdentifier>{1711975c-fc27-426b-a9de-e1c318e0588c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы ресурсов\controller">
+      <UniqueIdentifier>{4f44a540-fff5-41aa-8fd8-0485a47b839d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -54,10 +57,19 @@
     <ClInclude Include="GameSystem.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="GlassModel.h">
+    <ClInclude Include="Figure.h">
       <Filter>Файлы ресурсов\model</Filter>
     </ClInclude>
-    <ClInclude Include="Figure.h">
+    <ClInclude Include="Tetris.h">
+      <Filter>Файлы ресурсов\model</Filter>
+    </ClInclude>
+    <ClInclude Include="TetrisController.h">
+      <Filter>Файлы ресурсов\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Forms.h">
+      <Filter>Файлы ресурсов\model</Filter>
+    </ClInclude>
+    <ClInclude Include="Glass.h">
       <Filter>Файлы ресурсов\model</Filter>
     </ClInclude>
   </ItemGroup>
@@ -89,10 +101,16 @@
     <ClCompile Include="GameSystem.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="GlassModel.cpp">
+    <ClCompile Include="Figure.cpp">
       <Filter>Файлы ресурсов\model</Filter>
     </ClCompile>
-    <ClCompile Include="Figure.cpp">
+    <ClCompile Include="Tetris.cpp">
+      <Filter>Файлы ресурсов\model</Filter>
+    </ClCompile>
+    <ClCompile Include="TetrisController.cpp">
+      <Filter>Файлы ресурсов\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Glass.cpp">
       <Filter>Файлы ресурсов\model</Filter>
     </ClCompile>
   </ItemGroup>

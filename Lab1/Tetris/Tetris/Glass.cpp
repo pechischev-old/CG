@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "GlassModel.h"
+#include "Glass.h"
 
 namespace
 {
@@ -22,18 +22,18 @@ void OutputField(std::vector<std::vector<char>> const & field)
 	}
 }
 
-CGlassModel::CGlassModel()
+CGlass::CGlass()
 {
 	FillField();
 }
 
-CGlassModel::~CGlassModel()
+CGlass::~CGlass()
 {
 }
 
-void CGlassModel::ClearFullLine()
+void CGlass::ClearFullLine()
 {
-	std::cout << "enter "<< std::endl;
+	m_numberDeletedLines = 0;
 	for (size_t it = 0; it < m_field.size() - 1;)
 	{
 		bool isFullLine = true;
@@ -51,47 +51,41 @@ void CGlassModel::ClearFullLine()
 		}
 		if (isFullLine)
 		{
-			std::cout << " full line" << std::endl;
 			m_field.erase(m_field.begin() + it);
 			m_field.insert(m_field.begin(), m_emptyLine);
+			++m_numberDeletedLines;
 			continue;
 		}
 		++it;
 	}
-	//m_field = m_copyField;
-	//m_copyField = m_field;
+	for (auto const & symbol : m_field[1]) // TODO: заменить на is_any_of
+	{
+		if (symbol == SYMBOL_STATIC_FIGURE)
+		{
+			m_isFull = true;
+		}
+	}
 }
 
-void CGlassModel::MoveFigure() 
+void CGlass::MoveFigure() 
 {
 	m_field = m_copyField;
 	if (!CanMoveFigure())
 	{
 		return;
 	}
-	auto shift = m_figure->GetPosition();
+	auto oldPos = m_figure->GetPosition();
+	auto newPos = GetNextPosition(oldPos);
 
-	switch (m_figure->GetTypeMove()) 
-	{
-	case TypeMove::Direction::Left:
-		shift.x = (--shift.x > 0 ? shift.x : 1);
-		break;
-	case TypeMove::Direction::Right:
-		shift.x = (++shift.x < FIELD_WIDTH ? shift.x : FIELD_WIDTH - 1 );
-		break;
-	}
-	shift.y = (++shift.y < FIELD_HEIGHT ? shift.y : FIELD_HEIGHT - 1 );
-	ProcessCollisions(shift, m_figure->GetPosition());
-	bool flag = (shift == m_figure->GetPosition()) ;
-
-	m_figure->SetTypeMove(TypeMove::Direction::None);
-	m_figure->SetPosition(glm::vec2(shift));
+	ProcessCollisions(newPos, oldPos);
 	
-	auto i = shift.y;
+	m_figure->SetPosition(glm::vec2(newPos));
+	
+	auto i = newPos.y;
 	auto shape = m_figure->GetForm();
 	for (auto const & line : shape)
 	{
-		auto j = shift.x;
+		auto j = newPos.x;
 		for (auto const & symbol : line)
 		{
 			m_field[i][j] = (m_field[i][j] != SYMBOL_STATIC_FIGURE) ? symbol : m_field[i][j];
@@ -100,7 +94,7 @@ void CGlassModel::MoveFigure()
 		++i;
 	}
 	
-	if (flag)
+	if (newPos == oldPos)
 	{
 		m_figure = nullptr;
 		for (size_t i = 0; i < FIELD_HEIGHT; ++i)
@@ -119,19 +113,52 @@ void CGlassModel::MoveFigure()
 
 }
 
-void CGlassModel::SetFigure(CFigure* figure)
+void CGlass::SetFigure(CFigure* figure)
 {
 	m_copyField = m_field;
 	m_figure = figure;
 	m_figure->SetPosition(glm::vec2(FIELD_WIDTH / 3, 0));
 }
 
-bool CGlassModel::CanMoveFigure()
+bool CGlass::CanMoveFigure()
 {
 	return m_figure != nullptr;
 }
 
-void CGlassModel::FillField()
+int CGlass::GetCountDeletedLines() const
+{
+	return m_numberDeletedLines;
+}
+
+int CGlass::GetCountEmptyLine() const
+{
+	int countEmptyLine = 0;
+	for (auto const & line : m_field)
+	{
+		bool isEmptyLine = true;
+		for (auto const & cell : line)
+		{
+			if (cell != SYMBOL_EMPTY_SPACE)
+			{
+				isEmptyLine = true;
+				break;
+			}
+			++countEmptyLine;
+		}
+		if (isEmptyLine)
+		{
+			break;
+		}
+	}
+	return countEmptyLine;
+}
+
+bool CGlass::HasFull() const
+{
+	return m_isFull;
+}
+
+void CGlass::FillField()
 {
 	m_field.resize(FIELD_HEIGHT);
 	m_emptyLine.resize(FIELD_WIDTH, SYMBOL_EMPTY_SPACE);
@@ -150,7 +177,7 @@ void CGlassModel::FillField()
 	m_copyField = m_field;
 }
 
-void CGlassModel::ProcessCollisions(glm::ivec2 & newPos, glm::ivec2 const & oldPos)
+void CGlass::ProcessCollisions(glm::ivec2 & newPos, glm::ivec2 const & oldPos)
 {
 	auto shape = m_figure->GetForm();
 	auto size = m_figure->GetSize();
@@ -181,4 +208,22 @@ void CGlassModel::ProcessCollisions(glm::ivec2 & newPos, glm::ivec2 const & oldP
 		}		
 	}
 	
+}
+
+glm::ivec2 CGlass::GetNextPosition(glm::ivec2 const & oldPos) const
+{
+	auto nexPos = oldPos;
+
+	switch (m_figure->GetTypeMove())
+	{
+	case TypeMove::Direction::Left:
+		nexPos.x = (--nexPos.x > 0 ? nexPos.x : 1);
+		break;
+	case TypeMove::Direction::Right:
+		nexPos.x = (++nexPos.x < FIELD_WIDTH ? nexPos.x : FIELD_WIDTH - 1);
+		break;
+	}
+	nexPos.y = (++nexPos.y < FIELD_HEIGHT ? nexPos.y : FIELD_HEIGHT - 1);
+	m_figure->SetTypeMove(TypeMove::Direction::None);
+	return nexPos;
 }

@@ -1,19 +1,17 @@
 #pragma once
 #include "Tetris.h"
-#include "TetrisController.h"
+#include <SDL2\SDL_events.h>
 
-class CGameSystem
+class CTetrisController
 {
 public:
-	CGameSystem();
-	~CGameSystem();
-
+	CTetrisController(CTetris* m_tetris);
+	~CTetrisController();
 	void Update(float deltaSeconds);
 	bool OnKeyDown(const SDL_KeyboardEvent & event);
 	bool OnKeyUp(const SDL_KeyboardEvent & event);
-	void Draw() const;
 private:
-	CTetris m_tetris;
-	std::unique_ptr<CTetrisController> m_control = nullptr;
+	bool m_isPause = false;
+	CTetris *m_pTetris;
 };
 

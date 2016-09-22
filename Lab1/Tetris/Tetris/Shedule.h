@@ -4,8 +4,7 @@
 #include "GameSystem.h"
 #include "view\DrawableObject.h"
 
-class CShedule : public CDrawableObject
-			   , private boost::noncopyable
+class CShedule :  private boost::noncopyable
 			    
 {
 public:
@@ -15,8 +14,8 @@ public:
 	void Update(float deltaSeconds);
 	void SetSizeWindow(unsigned int width, unsigned int height);
 	bool OnKeyDown(const SDL_KeyboardEvent &event);
-protected:
-	void Redraw() const override;
+	bool OnKeyUp(const SDL_KeyboardEvent & event);
+	void Draw() const;
 private:
 	CGameSystem m_system;
 	unsigned int m_windowWidth = 0;

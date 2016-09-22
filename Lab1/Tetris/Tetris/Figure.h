@@ -26,6 +26,7 @@ public:
 	TypeMove::Direction GetTypeMove() const;
 	void Rotate();
 	void SetPosition(glm::ivec2 const & pos);
+	void CanRotate(bool canRotate);
 	glm::ivec2 GetPosition() const;
 	glm::ivec2 GetSize() const;
 	std::vector<std::string> GetForm() const;
@@ -33,6 +34,7 @@ private:
 	void CalculateSize();
 	void MakeCurrentForm();
 private:
+	bool m_canRotate = true;
 	glm::ivec2 m_pos;
 	unsigned m_width = 0;
 	unsigned m_height = 0;
