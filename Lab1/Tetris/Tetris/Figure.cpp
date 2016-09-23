@@ -31,6 +31,8 @@ void CFigure::Rotate()
 	}
 	m_forms.push_back(m_currentForm);
 	MakeCurrentForm();
+
+	m_pos.x = (m_height > m_width) ? m_pos.x - m_height / 2  : m_pos.x + m_width / 2;
 	CalculateSize();
 }
 

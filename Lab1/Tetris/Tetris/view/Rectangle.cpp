@@ -4,12 +4,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
-CRectangle::CRectangle(glm::vec2 const & pos, float width, float height, glm::vec3 const & color, float angle)
+CRectangle::CRectangle(glm::vec2 const & pos, float width, float height, glm::vec3 const & color)
 	: m_pos(pos)
 	, m_width(width)
 	, m_height(height)
 	, m_color(color)
-	, m_angle(angle)
 {
 }
 
@@ -24,7 +23,6 @@ void CRectangle::Redraw() const
 
 	glm::mat4 transform = glm::translate(glm::mat4(), offset + shapeOrigin);
 	
-	transform = glm::rotate(transform, m_angle, glm::vec3(0.f, 0.f, 1.f));
 	transform = glm::translate(transform, -shapeOrigin);
 
 	glPushMatrix();

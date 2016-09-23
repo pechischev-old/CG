@@ -7,7 +7,7 @@
 class CRectangle : public CDrawableObject
 {
 public:
-	CRectangle(glm::vec2 const & pos, float width, float height, glm::vec3 const & color, float angle);
+	CRectangle(glm::vec2 const & pos, float width, float height, glm::vec3 const & color);
 	CRectangle(CRectangle && obj) = default;
 	CRectangle(CRectangle const & obj) = delete;
 	CRectangle& operator =(CRectangle && obj) = default;
@@ -21,6 +21,5 @@ private:
 	glm::vec3 m_color;
 	float m_width;
 	float m_height;
-	float m_angle;
 };
 

@@ -15,7 +15,7 @@ public:
 	void SetSizeWindow(unsigned int width, unsigned int height);
 	bool OnKeyDown(const SDL_KeyboardEvent &event);
 	bool OnKeyUp(const SDL_KeyboardEvent & event);
-	void Draw() const;
+	void Draw();
 private:
 	CGameSystem m_system;
 	unsigned int m_windowWidth = 0;

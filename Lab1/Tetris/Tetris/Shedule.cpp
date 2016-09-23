@@ -22,6 +22,7 @@ void CShedule::SetSizeWindow(unsigned int width, unsigned int height)
 {
 	m_windowWidth = width;
 	m_windowHeigth = height;
+	m_system.SetSizeWindow(width, height);
 }
 
 bool CShedule::OnKeyDown(const SDL_KeyboardEvent & event)
@@ -34,7 +35,7 @@ bool CShedule::OnKeyUp(const SDL_KeyboardEvent & event)
 	return m_system.OnKeyUp(event);
 }
 
-void CShedule::Draw() const
+void CShedule::Draw() 
 {
 	m_system.Draw();
 }

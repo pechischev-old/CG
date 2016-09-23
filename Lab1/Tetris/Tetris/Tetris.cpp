@@ -78,23 +78,32 @@ void CTetris::SetAction(TetrisAction::Action const & action)
 		m_isBoost = true;
 		break;
 	case TetrisAction::Action::none:
+		if (!m_isBoost)
+		{
+			break;
+		}
 		m_speed *= 3.f;
 		m_isBoost = false;
 		break;
 	}
 }
 
-void CTetris::ResetState()
+void CTetris::ResetState() // вынести в константы
 {
-	m_isFull = false;
-	m_speed = 0.035f;
+	m_isFull = false; 
+	m_speed = 0.06f;
 	m_time = 0.f;
 	m_glassModel = CGlass();
 	m_info.level = 1;
-	m_info.lineLeft = 0;
-	m_info.lineTarget = 10;
+	m_info.lineLeft = 10;
+	m_info.lineTarget = 10; 
 	m_info.scope = 0;
 	CalculateNextFigure();
+}
+
+CGlass* CTetris::GetGlass() 
+{
+	return &m_glassModel;
 }
 
 void CTetris::InitFigure()
@@ -112,18 +121,19 @@ void CTetris::CalculateNextFigure()
 
 void CTetris::IncreaseGameValue()
 {
-	if (m_info.lineLeft == m_info.lineTarget)
+	if (m_info.lineLeft == 0)
 	{
 		++m_info.level;
 		m_info.lineTarget += 5;
-		m_info.lineLeft = 0;
+		m_info.lineLeft = m_info.lineTarget;
 		m_info.scope = m_glassModel.GetCountEmptyLine() * 10;
+		// TODO: нет уменьшения времени
 		m_glassModel = CGlass();
 	}
 	else
 	{
 		auto countRemovedLine = m_glassModel.GetCountDeletedLines();
-		m_info.lineLeft += countRemovedLine;
+		m_info.lineLeft -= countRemovedLine;
 		switch (countRemovedLine) 
 		{
 		case 1:

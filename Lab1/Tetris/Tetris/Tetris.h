@@ -32,6 +32,7 @@ public:
 	bool Update(float deltaSeconds);
 	void SetAction(TetrisAction::Action const & action);
 	void ResetState();
+	CGlass* GetGlass() ;
 private:
 	void InitFigure();
 	void CalculateNextFigure();

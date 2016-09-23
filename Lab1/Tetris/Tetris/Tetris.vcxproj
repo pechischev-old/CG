@@ -159,6 +159,8 @@ copy $(SDK2015)\glew-1.13.0\bin\Release\Win32\glew32.dll</Command>
     <ClInclude Include="Forms.h" />
     <ClInclude Include="GameSystem.h" />
     <ClInclude Include="Glass.h" />
+    <ClInclude Include="GlassView.h" />
+    <ClInclude Include="Observer.h" />
     <ClInclude Include="Shedule.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -175,6 +177,7 @@ copy $(SDK2015)\glew-1.13.0\bin\Release\Win32\glew32.dll</Command>
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="GameSystem.cpp" />
     <ClCompile Include="Glass.cpp" />
+    <ClCompile Include="GlassView.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shedule.cpp" />
     <ClCompile Include="stdafx.cpp">

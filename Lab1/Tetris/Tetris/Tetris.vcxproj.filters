@@ -72,6 +72,12 @@
     <ClInclude Include="Glass.h">
       <Filter>Файлы ресурсов\model</Filter>
     </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Файлы ресурсов</Filter>
+    </ClInclude>
+    <ClInclude Include="GlassView.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -112,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="Glass.cpp">
       <Filter>Файлы ресурсов\model</Filter>
+    </ClCompile>
+    <ClCompile Include="GlassView.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
