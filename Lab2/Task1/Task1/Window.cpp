@@ -21,9 +21,9 @@ namespace
 
 
 CWindow::CWindow()
+	: m_camera(CAMERA_INITIAL_ROTATION, CAMERA_INITIAL_DISTANCE)
 {
-	SetBackgroundColor({ 0.f, 0.0f, 0.0f, 1.f });
-
+	SetBackgroundColor(BLACK);
 }
 
 void CWindow::OnWindowInit(const glm::ivec2 &size)
@@ -36,28 +36,25 @@ void CWindow::OnUpdateWindow(float deltaSeconds)
 {
 	m_time += deltaSeconds;
 	m_cube.Update(deltaSeconds);
+	m_camera.Update(deltaSeconds);
 }
 
 void CWindow::OnDrawWindow(const glm::ivec2 &size)
 {
 	SetupView(size);
-	// —мещаем статический единичный куб в другую сторону
-	glPushMatrix();
-	glTranslatef(1.5f, 0, 0);
+		
 	m_cube.Draw();
-	glPopMatrix();
+	
 }
 
 void CWindow::SetupView(const glm::ivec2 &size)
 {
 	glViewport(0, 0, size.x, size.y);
 
-	const glm::vec3 eye = { 2, 4, 2 };
-	const glm::vec3 center = { 0, 0, 0 };
-	const glm::vec3 up = { 0, 0, 1 };
-	// ћатрица моделировани€-вида вычисл€етс€ функцией glm::lookAt.
-	const glm::mat4 mv = glm::lookAt(eye, center, up);
-	glLoadMatrixf(glm::value_ptr(mv));
+	// ћатрица вида возвращаетс€ камерой и составл€ет
+	// начальное значение матрицы GL_MODELVIEW.
+	glLoadMatrixf(glm::value_ptr(m_camera.GetViewTransform()));
+
 	// ћатрица перспективного преобразовани€ вычисл€етс€ функцией
 	// glm::perspective, принимающей угол обзора, соотношение ширины
 	// и высоты окна, рассто€ни€ до ближней и дальней плоскостей отсечени€.
@@ -69,4 +66,14 @@ void CWindow::SetupView(const glm::ivec2 &size)
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(glm::value_ptr(proj));
 	glMatrixMode(GL_MODELVIEW);
+}
+
+void CWindow::OnKeyDown(const SDL_KeyboardEvent &event)
+{
+	m_camera.OnKeyDown(event);
+}
+
+void CWindow::OnKeyUp(const SDL_KeyboardEvent &event)
+{
+	m_camera.OnKeyUp(event);
 }

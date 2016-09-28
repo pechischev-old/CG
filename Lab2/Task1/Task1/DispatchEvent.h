@@ -16,10 +16,9 @@ class IInputEventAcceptor
 public:
 	virtual ~IInputEventAcceptor() = default;
 
-	virtual void OnMouseUp(const SDL_MouseButtonEvent &) {}
-	virtual void OnMouseDown(const SDL_MouseButtonEvent &) {}
-	virtual void OnMouseMotion(const SDL_MouseMotionEvent &) {}
-	virtual void OnMouseWheel(const SDL_MouseWheelEvent &) {}
+	virtual void OnDragBegin(const glm::vec2 &pos) { (void)pos; }
+	virtual void OnDragMotion(const glm::vec2 &pos) { (void)pos; }
+	virtual void OnDragEnd(const glm::vec2 &pos) { (void)pos; }
 	virtual void OnKeyDown(const SDL_KeyboardEvent &) {}
 	virtual void OnKeyUp(const SDL_KeyboardEvent &) {}
 };

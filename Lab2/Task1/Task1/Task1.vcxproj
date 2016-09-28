@@ -155,6 +155,7 @@ copy $(SDK2015)\glew-1.13.0\bin\Release\Win32\glew32.dll</Command>
   <ItemGroup>
     <ClInclude Include="AbstractWindow.h" />
     <ClInclude Include="Bodies.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="DispatchEvent.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -163,6 +164,7 @@ copy $(SDK2015)\glew-1.13.0\bin\Release\Win32\glew32.dll</Command>
   <ItemGroup>
     <ClCompile Include="AbstractWindow.cpp" />
     <ClCompile Include="Bodies.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DispatchEvent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />

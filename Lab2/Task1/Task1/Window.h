@@ -1,6 +1,7 @@
 #pragma once
 #include "DispatchEvent.h"
 #include "Bodies.h"
+#include "Camera.h"
 
 
 class CWindow : public CAbstractInputControlWindow
@@ -14,9 +15,14 @@ protected:
 	void OnUpdateWindow(float deltaSeconds) override;
 	void OnDrawWindow(const glm::ivec2 &size) override;
 
+	// IInputEventAcceptor interface
+	void OnKeyDown(const SDL_KeyboardEvent &) override;
+	void OnKeyUp(const SDL_KeyboardEvent &) override;
+
 private:
 	void SetupView(const glm::ivec2 &size);
 	float m_time = 0.f;
 
 	CIdentityCube m_cube;
+	CCamera m_camera;
 };
