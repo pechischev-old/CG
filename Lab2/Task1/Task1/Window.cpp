@@ -6,8 +6,32 @@
 namespace
 {
 	const glm::vec4 BLACK = { 0, 0, 0, 1 };
+	const glm::vec3 YELLOW = { 1.f, 1.f, 0.f };
+	const glm::vec4 LIGHT_YELLOW_RGBA = { 1.f, 1.f, 0.5f, 1.f };
+	const glm::vec3 ORANGE = { 1.f, 0.5f, 0.f };
+	const glm::vec3 PINK = { 1.f, 0.3f, 0.3f };
+	const glm::vec4 WHITE_LIGHT = { 1, 1, 1, 1 };
+	const glm::vec3 SUNLIGHT_DIRECTION = { -1.f, 0.2f, 0.7f };
+
 	const float CAMERA_INITIAL_ROTATION = 0;
 	const float CAMERA_INITIAL_DISTANCE = 5.f;
+
+	// включает смешивание цветов
+	// перед выводом полупрозрачных тел
+	void enableBlending()
+	{
+		glDepthMask(GL_FALSE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+
+	// отключает смешивание цветов
+	// перед выводом непрозрачных тел
+	void disableBlending()
+	{
+		glDepthMask(GL_TRUE);
+		glDisable(GL_BLEND);
+	}
 
 	void SetupOpenGLState()
 	{
@@ -16,14 +40,39 @@ namespace
 		glEnable(GL_CULL_FACE);
 		glFrontFace(GL_CCW);
 		glCullFace(GL_BACK);
+
+		// включаем систему освещени€
+		glEnable(GL_LIGHTING);
+
+		// включаем применение цветов вершин как цвета материала.
+		glEnable(GL_COLOR_MATERIAL);
+		glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	}
 }
 
 
 CWindow::CWindow()
 	: m_camera(CAMERA_INITIAL_ROTATION, CAMERA_INITIAL_DISTANCE)
+	, m_sunlight(GL_LIGHT0)
 {
+	
+	// цвет мен€ем на цвет тумана, потому что OpenGL
+	// не накладывает туман на фон кадра
 	SetBackgroundColor(BLACK);
+
+	m_cube.SetFaceColor(CubeFace::Top, YELLOW);
+	m_cube.SetFaceColor(CubeFace::Bottom, YELLOW);
+	m_cube.SetFaceColor(CubeFace::Left, ORANGE);
+	m_cube.SetFaceColor(CubeFace::Right, ORANGE);
+	m_cube.SetFaceColor(CubeFace::Front, PINK);
+	m_cube.SetFaceColor(CubeFace::Back, PINK);
+
+	m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
+	m_sunlight.SetDiffuse(WHITE_LIGHT);
+	m_sunlight.SetAmbient(0.1f * WHITE_LIGHT);
+	// »з-за интерпол€ции освещени€ по √уро
+	// смысл Specular компоненты дл€ куба тер€етс€.
+	// m_sunlight.SetSpecular(WHITE_LIGHT);
 }
 
 void CWindow::OnWindowInit(const glm::ivec2 &size)
@@ -42,8 +91,14 @@ void CWindow::OnUpdateWindow(float deltaSeconds)
 void CWindow::OnDrawWindow(const glm::ivec2 &size)
 {
 	SetupView(size);
+	//SetupFog();
+	m_sunlight.Setup();
 		
 	m_cube.Draw();
+
+	/*enableBlending();
+	m_cube.Draw();
+	disableBlending();*/
 	
 }
 
@@ -68,9 +123,32 @@ void CWindow::SetupView(const glm::ivec2 &size)
 	glMatrixMode(GL_MODELVIEW);
 }
 
+void CWindow::SetupFog()
+{
+	if (m_isFogEnabled)
+	{
+		const float density = 0.2f;
+		glEnable(GL_FOG);
+		glFogi(GL_FOG_MODE, GL_EXP2);
+		glFogfv(GL_FOG_COLOR, glm::value_ptr(LIGHT_YELLOW_RGBA));
+		glFogf(GL_FOG_DENSITY, density);
+	}
+	else
+	{
+		glDisable(GL_FOG);
+	}
+}
+
 void CWindow::OnKeyDown(const SDL_KeyboardEvent &event)
 {
-	m_camera.OnKeyDown(event);
+	if (m_camera.OnKeyDown(event))
+	{
+		return;
+	}
+	if (event.keysym.sym == SDLK_f)
+	{
+		m_isFogEnabled = !m_isFogEnabled;
+	}
 }
 
 void CWindow::OnKeyUp(const SDL_KeyboardEvent &event)

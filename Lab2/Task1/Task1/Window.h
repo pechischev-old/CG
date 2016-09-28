@@ -2,6 +2,7 @@
 #include "DispatchEvent.h"
 #include "Bodies.h"
 #include "Camera.h"
+#include "Light.h"
 
 
 class CWindow : public CAbstractInputControlWindow
@@ -21,8 +22,11 @@ protected:
 
 private:
 	void SetupView(const glm::ivec2 &size);
+	void SetupFog();
 	float m_time = 0.f;
 
 	CIdentityCube m_cube;
 	CCamera m_camera;
+	CDirectedLightSource m_sunlight;
+	bool m_isFogEnabled = true;
 };
