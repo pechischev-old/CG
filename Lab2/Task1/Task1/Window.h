@@ -22,7 +22,6 @@ protected:
 
 private:
 	void SetupView(const glm::ivec2 &size);
-	void SetupFog();
 	float m_time = 0.f;
 
 	CIdentityCube m_cube;

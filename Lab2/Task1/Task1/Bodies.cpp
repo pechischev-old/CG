@@ -124,13 +124,6 @@ const STriangleFace CUBE_FACES[] = {
 CIdentityCube::CIdentityCube()
 	: m_alpha(1)
 {
-	// Используем белый цвет по умолчанию.
-	for (glm::vec3 &color : m_colors)
-	{
-		color.x = 1;
-		color.y = 1;
-		color.z = 1;
-	}
 }
 
 void CIdentityCube::Update(float deltaTime)
@@ -148,14 +141,6 @@ void CIdentityCube::Draw() const
 	}
 	OutputFaces();
 }
-
-void CIdentityCube::SetFaceColor(CubeFace face, const glm::vec3 &color)
-{
-	const size_t index = static_cast<size_t>(face);
-	assert(index < COLORS_COUNT);
-	m_colors[index] = color;
-}
-
 
 void CIdentityCube::SetAlpha(float alpha)
 {

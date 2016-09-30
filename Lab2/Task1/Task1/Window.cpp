@@ -6,12 +6,7 @@
 namespace
 {
 	const glm::vec4 BLACK = { 0, 0, 0, 1 };
-	const glm::vec3 YELLOW = { 1.f, 1.f, 0.f };
 	const glm::vec4 LIGHT_YELLOW_RGBA = { 1.f, 1.f, 0.5f, 1.f };
-	const glm::vec3 ORANGE = { 1.f, 0.5f, 0.f };
-	const glm::vec3 PINK = { 1.f, 0.3f, 0.3f };
-	const glm::vec3 GREEN = { 0.f, 1.f, 0.f };
-	const glm::vec3 WHITE = { 1.f, 1.f, 1.f };
 	const glm::vec4 WHITE_LIGHT = { 1, 1, 1, 1 };
 	const glm::vec3 SUNLIGHT_DIRECTION = { -1.f, 0.2f, 0.7f };
 
@@ -57,22 +52,12 @@ CWindow::CWindow()
 	: m_camera(CAMERA_INITIAL_ROTATION, CAMERA_INITIAL_DISTANCE)
 	, m_sunlight(GL_LIGHT0)
 {
-	
-	// цвет меняем на цвет тумана, потому что OpenGL
-	// не накладывает туман на фон кадра
 	SetBackgroundColor(BLACK);
 	m_cube.SetAlpha(0.7f);
-	m_cube.SetFaceColor(CubeFace::Top, YELLOW);
-	m_cube.SetFaceColor(CubeFace::Bottom, YELLOW);
-	m_cube.SetFaceColor(CubeFace::Left, GREEN);
-	m_cube.SetFaceColor(CubeFace::Right, ORANGE);
-	m_cube.SetFaceColor(CubeFace::Front, PINK);
-	m_cube.SetFaceColor(CubeFace::Back, WHITE);
-
+	
 	m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
 	m_sunlight.SetDiffuse(WHITE_LIGHT);
 	m_sunlight.SetAmbient(0.1f * WHITE_LIGHT);
-	
 }
 
 void CWindow::OnWindowInit(const glm::ivec2 &size)
@@ -93,8 +78,6 @@ void CWindow::OnDrawWindow(const glm::ivec2 &size)
 	SetupView(size);
 	m_sunlight.Setup();
 		
-	//m_cube.Draw();
-
 	enableBlending();
 	m_cube.Draw();
 	disableBlending();
@@ -122,21 +105,6 @@ void CWindow::SetupView(const glm::ivec2 &size)
 	glMatrixMode(GL_MODELVIEW);
 }
 
-void CWindow::SetupFog()
-{
-	if (m_isFogEnabled)
-	{
-		const float density = 0.2f;
-		glEnable(GL_FOG);
-		glFogi(GL_FOG_MODE, GL_EXP2);
-		glFogfv(GL_FOG_COLOR, glm::value_ptr(LIGHT_YELLOW_RGBA));
-		glFogf(GL_FOG_DENSITY, density);
-	}
-	else
-	{
-		glDisable(GL_FOG);
-	}
-}
 
 void CWindow::OnKeyDown(const SDL_KeyboardEvent &event)
 {
@@ -144,13 +112,12 @@ void CWindow::OnKeyDown(const SDL_KeyboardEvent &event)
 	{
 		return;
 	}
-	if (event.keysym.sym == SDLK_f)
-	{
-		m_isFogEnabled = !m_isFogEnabled;
-	}
 }
 
 void CWindow::OnKeyUp(const SDL_KeyboardEvent &event)
 {
-	m_camera.OnKeyUp(event);
+	if (m_camera.OnKeyUp(event))
+	{
+		return;
+	}
 }
