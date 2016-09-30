@@ -44,7 +44,7 @@ namespace
 		glCullFace(GL_BACK);
 
 		// включаем систему освещения
-		//glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHTING);
 
 		// включаем применение цветов вершин как цвета материала.
 		glEnable(GL_COLOR_MATERIAL);
