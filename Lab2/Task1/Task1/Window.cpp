@@ -10,6 +10,8 @@ namespace
 	const glm::vec4 LIGHT_YELLOW_RGBA = { 1.f, 1.f, 0.5f, 1.f };
 	const glm::vec3 ORANGE = { 1.f, 0.5f, 0.f };
 	const glm::vec3 PINK = { 1.f, 0.3f, 0.3f };
+	const glm::vec3 GREEN = { 0.f, 1.f, 0.f };
+	const glm::vec3 WHITE = { 1.f, 1.f, 1.f };
 	const glm::vec4 WHITE_LIGHT = { 1, 1, 1, 1 };
 	const glm::vec3 SUNLIGHT_DIRECTION = { -1.f, 0.2f, 0.7f };
 
@@ -42,7 +44,7 @@ namespace
 		glCullFace(GL_BACK);
 
 		// включаем систему освещени€
-		glEnable(GL_LIGHTING);
+		//glEnable(GL_LIGHTING);
 
 		// включаем применение цветов вершин как цвета материала.
 		glEnable(GL_COLOR_MATERIAL);
@@ -59,20 +61,18 @@ CWindow::CWindow()
 	// цвет мен€ем на цвет тумана, потому что OpenGL
 	// не накладывает туман на фон кадра
 	SetBackgroundColor(BLACK);
-
+	m_cube.SetAlpha(0.7f);
 	m_cube.SetFaceColor(CubeFace::Top, YELLOW);
 	m_cube.SetFaceColor(CubeFace::Bottom, YELLOW);
-	m_cube.SetFaceColor(CubeFace::Left, ORANGE);
+	m_cube.SetFaceColor(CubeFace::Left, GREEN);
 	m_cube.SetFaceColor(CubeFace::Right, ORANGE);
 	m_cube.SetFaceColor(CubeFace::Front, PINK);
-	m_cube.SetFaceColor(CubeFace::Back, PINK);
+	m_cube.SetFaceColor(CubeFace::Back, WHITE);
 
 	m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
 	m_sunlight.SetDiffuse(WHITE_LIGHT);
 	m_sunlight.SetAmbient(0.1f * WHITE_LIGHT);
-	// »з-за интерпол€ции освещени€ по √уро
-	// смысл Specular компоненты дл€ куба тер€етс€.
-	// m_sunlight.SetSpecular(WHITE_LIGHT);
+	
 }
 
 void CWindow::OnWindowInit(const glm::ivec2 &size)
@@ -91,14 +91,13 @@ void CWindow::OnUpdateWindow(float deltaSeconds)
 void CWindow::OnDrawWindow(const glm::ivec2 &size)
 {
 	SetupView(size);
-	//SetupFog();
 	m_sunlight.Setup();
 		
-	m_cube.Draw();
+	//m_cube.Draw();
 
-	/*enableBlending();
+	enableBlending();
 	m_cube.Draw();
-	disableBlending();*/
+	disableBlending();
 	
 }
 
