@@ -19,16 +19,14 @@ enum class Colors
 	Pink = 0,
 	Green,
 	Blue,
-	Purple,
+	Purple, 
 	Cyan,
 
 	NumColors
 };
 
 
-// Вершины куба служат материалом для формирования треугольников,
-// составляющих грани куба.
-const Vertex CUBE_VERTICIES[] = {
+const Vertex RHOMBICUBOCTAHEDRON_VERTICIES[] = {
 	{ -0.5, -1.2, 0.5 },
 	{ 0.5, -1.2, 0.5 },
 	{ 0.5, -1.2, -0.5 },
@@ -68,7 +66,7 @@ struct STriangleFace
 };
 
 
-const STriangleFace CUBE_FACES[] = {
+const STriangleFace RHOMBICUBOCTAHEDRON_FACES[] = { // RHOMBICUBOCTAHEDRON
 	{ 0, 3, 2, static_cast<uint16_t>(Colors::Pink) },
 	{ 0, 2, 1, static_cast<uint16_t>(Colors::Pink) },
 
@@ -121,17 +119,17 @@ const STriangleFace CUBE_FACES[] = {
 
 }
 
-CIdentityCube::CIdentityCube()
+CRhombicuboctahedron::CRhombicuboctahedron()
 	: m_alpha(1)
 {
 }
 
-void CIdentityCube::Update(float deltaTime)
+void CRhombicuboctahedron::Update(float deltaTime)
 {
     (void)deltaTime;
 }
 
-void CIdentityCube::Draw() const
+void CRhombicuboctahedron::Draw() const
 {
 	if (m_alpha < 0.99f)
 	{
@@ -142,20 +140,20 @@ void CIdentityCube::Draw() const
 	OutputFaces();
 }
 
-void CIdentityCube::SetAlpha(float alpha)
+void CRhombicuboctahedron::SetAlpha(float alpha)
 {
 	m_alpha = alpha;
 }
 
-void CIdentityCube::OutputFaces() const
+void CRhombicuboctahedron::OutputFaces() const
 {
 	glBegin(GL_TRIANGLES);
 
-	for (const STriangleFace &face : CUBE_FACES)
+	for (const STriangleFace &face : RHOMBICUBOCTAHEDRON_FACES)
 	{
-		const Vertex &v1 = CUBE_VERTICIES[face.vertexIndex1];
-		const Vertex &v2 = CUBE_VERTICIES[face.vertexIndex2];
-		const Vertex &v3 = CUBE_VERTICIES[face.vertexIndex3];
+		const Vertex &v1 = RHOMBICUBOCTAHEDRON_VERTICIES[face.vertexIndex1];
+		const Vertex &v2 = RHOMBICUBOCTAHEDRON_VERTICIES[face.vertexIndex2];
+		const Vertex &v3 = RHOMBICUBOCTAHEDRON_VERTICIES[face.vertexIndex3];
 		glm::vec3 normal = glm::normalize(glm::cross(v2 - v1, v3 - v1));
 		glm::vec3 color = colors[face.colorIndex];
 

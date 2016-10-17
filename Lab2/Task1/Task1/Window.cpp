@@ -53,11 +53,11 @@ CWindow::CWindow()
 	, m_sunlight(GL_LIGHT0)
 {
 	SetBackgroundColor(BLACK);
-	m_cube.SetAlpha(0.7f);
+	m_rhombicuboctahedron.SetAlpha(0.7f);
 	
 	m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
 	m_sunlight.SetDiffuse(WHITE_LIGHT);
-	m_sunlight.SetAmbient(0.1f * WHITE_LIGHT);
+	m_sunlight.SetAmbient(0.4f * WHITE_LIGHT);
 }
 
 void CWindow::OnWindowInit(const glm::ivec2 &size)
@@ -69,7 +69,7 @@ void CWindow::OnWindowInit(const glm::ivec2 &size)
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
 	m_time += deltaSeconds;
-	m_cube.Update(deltaSeconds);
+	m_rhombicuboctahedron.Update(deltaSeconds);
 	m_camera.Update(deltaSeconds);
 }
 
@@ -79,7 +79,7 @@ void CWindow::OnDrawWindow(const glm::ivec2 &size)
 	m_sunlight.Setup();
 		
 	enableBlending();
-	m_cube.Draw();
+	m_rhombicuboctahedron.Draw();
 	disableBlending();
 	
 }
@@ -120,4 +120,17 @@ void CWindow::OnKeyUp(const SDL_KeyboardEvent &event)
 	{
 		return;
 	}
+}
+
+void CWindow::OnDragBegin(const glm::vec2 &pos)
+{
+	m_camera.OnDragBegin(pos);
+}
+void CWindow::OnDragMotion(const glm::vec2 &pos)
+{
+	m_camera.OnDragMotion(pos);
+}
+void CWindow::OnDragEnd(const glm::vec2 &pos)
+{
+	m_camera.OnDragEnd(pos);
 }

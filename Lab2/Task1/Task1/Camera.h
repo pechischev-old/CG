@@ -1,7 +1,6 @@
 #pragma once
 
 #include <glm/fwd.hpp>
-#include <glm/vec3.hpp>
 #include <SDL2/SDL_events.h>
 #include <boost/noncopyable.hpp>
 #include <set>
@@ -14,14 +13,21 @@ public:
 	void Update(float deltaSec);
 	bool OnKeyDown(const SDL_KeyboardEvent &event);
 	bool OnKeyUp(const SDL_KeyboardEvent &event);
-
-	void SetDirection(const glm::vec3 &direction);
-
-	glm::mat4 GetViewTransform() const;
+	void OnDragBegin(const glm::vec2 &pos);
+	void OnDragMotion(const glm::vec2 &pos);
+	void OnDragEnd(const glm::vec2 &pos);
+	glm::mat4 GetViewTransform();
 
 private:
-	glm::vec3 m_direction;
-	float m_rotationRadians = 0;
+	float m_rotationRadiansX = 0;
+	float m_rotationRadiansY = 0;
+
 	float m_distance = 1;
 	std::set<unsigned> m_keysPressed;
+
+	glm::vec3 m_direction;
+	glm::vec3 m_position;
+
+	bool m_isRotating = false;
+	glm::vec2 m_dragBeginPos;
 };

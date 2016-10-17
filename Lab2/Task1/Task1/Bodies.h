@@ -5,10 +5,10 @@
 #include <boost/noncopyable.hpp>
 
 
-class CIdentityCube
+class CRhombicuboctahedron
 {
 public:
-	CIdentityCube();
+	CRhombicuboctahedron();
     void Update(float deltaTime);
     void Draw()const;
 

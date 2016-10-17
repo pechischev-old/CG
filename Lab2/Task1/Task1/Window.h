@@ -19,13 +19,15 @@ protected:
 	// IInputEventAcceptor interface
 	void OnKeyDown(const SDL_KeyboardEvent &) override;
 	void OnKeyUp(const SDL_KeyboardEvent &) override;
+	void OnDragBegin(const glm::vec2 &pos) override;
+	void OnDragMotion(const glm::vec2 &pos) override;
+	void OnDragEnd(const glm::vec2 &pos) override;
 
 private:
 	void SetupView(const glm::ivec2 &size);
 	float m_time = 0.f;
 
-	CIdentityCube m_cube;
+	CRhombicuboctahedron m_rhombicuboctahedron;
 	CCamera m_camera;
 	CDirectedLightSource m_sunlight;
-	bool m_isFogEnabled = true;
 };

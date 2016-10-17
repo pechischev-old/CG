@@ -5,10 +5,11 @@
 
 namespace
 {
-	const float ROTATION_SPEED_RADIANS = 10.f;
-	const float LINEAR_MOVE_SPEED = 20.f;
-	const float MIN_DISTANCE = 2.f;
+	const float ROTATION_SPEED_RADIANS = 1.f;
+	const float LINEAR_MOVE_SPEED = 5.f;
+	const float MIN_DISTANCE = 1.5f;
 	const float MAX_DISTANCE = 30.f;
+	const float PIXEL_TO_RADIANS_FACTOR = 0.01f; // PIXEL_TO_RADIANS_FACTOR
 
 	bool ShouldTrackKeyPressed(const SDL_Keysym &key)
 	{
@@ -56,15 +57,14 @@ namespace
 
 
 CCamera::CCamera(float rotationRadians, float distance)
-	: m_rotationRadians(rotationRadians)
+	: m_rotationRadiansX(rotationRadians)
 	, m_distance(distance)
 {
-	SetDirection({ 0.f, 0.5f, 1.f });
 }
 
 void CCamera::Update(float deltaSec)
 {
-	m_rotationRadians += deltaSec * GetRotationSpeedRadians(m_keysPressed);
+	m_rotationRadiansX += deltaSec * GetRotationSpeedRadians(m_keysPressed);
 	m_distance += deltaSec * GetLinearMoveSpeed(m_keysPressed);
 	m_distance = glm::clamp(m_distance, MIN_DISTANCE, MAX_DISTANCE);
 }
@@ -89,22 +89,42 @@ bool CCamera::OnKeyUp(const SDL_KeyboardEvent &event)
 	return false;
 }
 
-void CCamera::SetDirection(const glm::vec3 &direction)
+void CCamera::OnDragBegin(const glm::vec2 &pos)
 {
-	// Дополнительно нормализуем вектор (приводим к единичной длине).
-	m_direction = glm::normalize(direction);
+	m_isRotating = true;
+	m_dragBeginPos = pos;
 }
 
-glm::mat4 CCamera::GetViewTransform() const
+void CCamera::OnDragMotion(const glm::vec2 &pos)
 {
-	// Поворачиваем вектор направления камеры вокруг оси Y.
+	if (m_isRotating)
+	{
+		glm::vec2 offset = m_dragBeginPos - pos;
+		m_dragBeginPos = pos;
+		m_rotationRadiansX += offset.x * PIXEL_TO_RADIANS_FACTOR;
+		m_rotationRadiansY += offset.y * PIXEL_TO_RADIANS_FACTOR;
+	}
+}
+
+void CCamera::OnDragEnd(const glm::vec2 &pos)
+{
+	m_isRotating = false;
+}
+
+glm::mat4 CCamera::GetViewTransform()
+{
+	glm::vec3 direction = { 0.f, 0.5f, 1.f };
+	// Нормализуем вектор (приводим к единичной длине),
+	// затем поворачиваем вокруг оси Y.
 	// см. http://glm.g-truc.net/0.9.3/api/a00199.html
-	glm::vec3 direction = glm::rotateY(m_direction, m_rotationRadians);
+	direction = glm::rotateY(glm::normalize(direction), m_rotationRadiansX);
+	direction = glm::rotateX(glm::normalize(direction), m_rotationRadiansY);
 
 	const glm::vec3 eye = direction * m_distance;
 	const glm::vec3 center = { 0, 0, 0 };
 	const glm::vec3 up = { 0, 1, 0 };
-
+	m_position = eye;
+	m_direction = center - eye;
 	// Матрица моделирования-вида вычисляется функцией glm::lookAt.
 	// Она даёт матрицу, действующую так, как будто камера смотрит
 	// с позиции eye на точку center, а направление "вверх" камеры равно up.
