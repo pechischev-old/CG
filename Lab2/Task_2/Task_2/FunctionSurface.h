@@ -5,7 +5,8 @@
 #include <glm/fwd.hpp>
 #include <glm/vec3.hpp>
 
-using Function2D = std::function<float(float, float)>;
+// TODO: return glm::vec3
+using Function2D = std::function<glm::vec3(float, float)>;
 
 // ¬ершина с трЄхмерной позицией и нормалью.
 struct SVertexP3N
@@ -23,7 +24,7 @@ struct SVertexP3N
 class CSolidFunctionSurface final : public ISceneObject
 {
 public:
-	CSolidFunctionSurface(const Function2D &fnOnX, const Function2D &fnOnY, const Function2D &fnOnZ);
+	CSolidFunctionSurface(const Function2D &fn);
 
 	/// »нициализирует индексированную сетку треугольников
 	/// @param rangeX - диапазон, где x - нижн€€ граница, y - верхн€€ граница
@@ -36,9 +37,7 @@ public:
 	void ChangeMode();
 
 private:
-	Function2D m_fnOnX;
-	Function2D m_fnOnY;
-	Function2D m_fnOnZ;
+	Function2D m_fn;
 	std::vector<SVertexP3N> m_vertices;
 	std::vector<uint32_t> m_indicies;
 	bool m_isFrame = false;

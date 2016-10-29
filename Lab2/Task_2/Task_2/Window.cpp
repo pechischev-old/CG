@@ -34,38 +34,14 @@ namespace
 		glDisable(GL_BLEND);
 	}
 
-	float GetSincFromXY(float x, float y)
-	{
-		const float radius = std::hypotf(x, y);
-		if (radius < std::numeric_limits<float>::epsilon())
-		{
-			return 1;
-		}
-		return sinf(radius) / radius;
-	}
-
 	glm::vec3 GetPointOfMobiusStripFromXY(float u, float v)
 	{
-		float x = (1 + (v / 2) * std::cos(u / 2)) * cos(u);
-		float y = (1 + (v / 2) * std::cos(u / 2)) * sin(u);
-		float z = (v / 2) * sin(u / 2);
-		return{ x, z, y };
+		float x = (1.f + (v / 2.f * cosf(u / 2.f))) * cosf(u);
+		float y = (1.f + (v / 2.f * cosf(u / 2.f))) * sinf(u);
+		float z = v / 2.f * sinf(u / 2.f);
+		return glm::vec3(x, y, z);
 	}
 
-	float GetXMobiusStrip(float U, float V)
-	{
-		return (1.f + (V / 2.f * cosf(U / 2.f))) * cosf(U);
-	}
-
-	float GetYMobiusStrip(float U, float V)
-	{
-		return (1.f + (V / 2.f * cosf(U / 2.f))) * sinf(U);
-	}
-
-	float GetZMobiusStrip(float U, float V)
-	{
-		return V / 2.f * sinf(U / 2.f);
-	}
 
 	void SetupOpenGLState()
 	{
@@ -88,7 +64,7 @@ namespace
 CWindow::CWindow()
 	: m_camera(CAMERA_INITIAL_ROTATION, CAMERA_INITIAL_DISTANCE)
 	, m_sunlight(GL_LIGHT0)
-	, m_surface(GetXMobiusStrip, GetYMobiusStrip, GetZMobiusStrip)
+	, m_surface(GetPointOfMobiusStripFromXY)
 {
 	const glm::vec4 WHITE_RGBA = { 1, 1, 1, 1 };
 	SetBackgroundColor(BLACK);
@@ -97,7 +73,7 @@ CWindow::CWindow()
 	m_material.SetSpecular(FADED_WHITE_RGBA);
 	m_material.SetShininess(MATERIAL_SHININESS);
 
-	m_surface.Tesselate({ 0.f, float(2 * M_PI) + 0.1f }, { -1, 1 }, 0.05f);
+	m_surface.Tesselate({ 0.f, float(2 * M_PI) }, { -1, 1 }, 0.05f);
 
 	m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
 	m_sunlight.SetDiffuse(WHITE_RGBA);
@@ -165,10 +141,6 @@ void CWindow::OnKeyUp(const SDL_KeyboardEvent &event)
 	if (event.keysym.sym == SDLK_SPACE)
 	{
 		m_surface.ChangeMode();
-	}
-	else if (event.keysym.sym == SDLK_c)
-	{
-		//m_surface.ChangeColorMode();
 	}
 }
 

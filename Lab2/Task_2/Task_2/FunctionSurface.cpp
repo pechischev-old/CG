@@ -8,8 +8,7 @@ namespace
 
 	glm::vec3 GetPosition(const Function2D &fn, float x, float z)
 	{
-		const float y = fn(x, z);
-		return{ x, y, z };
+		return fn(x, z);
 	}
 
 	// вычисляет нормали численным методом,
@@ -74,13 +73,30 @@ namespace
 				}
 			}
 		}
+		unsigned ci = columnCount - 1;
+		if (ci % 2 == 0)
+		{
+			for (unsigned ri = 0; ri < rowCount; ++ri)
+			{
+				unsigned index = ci * rowCount + ri;
+				indicies.push_back(rowCount - 1 - ri);
+				indicies.push_back(index);
+			}
+		}
+		else
+		{
+			for (unsigned ri = rowCount - 1; ri < rowCount; --ri)
+			{
+				unsigned index = ci * rowCount + ri;
+				indicies.push_back(index);
+				indicies.push_back(rowCount - ri - 1);
+			}
+		}
 	}
 }
 
-CSolidFunctionSurface::CSolidFunctionSurface(const Function2D &fnOnX, const Function2D &fnOnY, const Function2D &fnOnZ)
-	: m_fnOnX(fnOnX)
-	, m_fnOnY(fnOnY)
-	, m_fnOnZ(fnOnZ)
+CSolidFunctionSurface::CSolidFunctionSurface(const Function2D &fn)
+	: m_fn(fn)
 {
 }
 
@@ -98,7 +114,7 @@ void CSolidFunctionSurface::Tesselate(const glm::vec2 &rangeX, const glm::vec2 &
 		for (unsigned ri = 0; ri < rowCount; ++ri)
 		{
 			const float z = rangeZ.x + step * float(ri);
-			m_vertices.push_back(SVertexP3N(glm::vec3(m_fnOnX(x, z), m_fnOnY(x, z), m_fnOnZ(x, z))));
+			m_vertices.push_back(SVertexP3N(m_fn(x, z)));
 		}
 	}
 	CalculateNormals(m_vertices, step);
