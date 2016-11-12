@@ -4,7 +4,7 @@
 
 namespace
 {
-	const char WINDOW_TITLE[] = "SDL2/OpenGL Demo";
+	const char WINDOW_TITLE[] = "SDL2/Lab2_2";
 	std::once_flag g_glewInitOnceFlag;
 
 	// Используем unique_ptr с явно заданной функцией удаления вместо delete.

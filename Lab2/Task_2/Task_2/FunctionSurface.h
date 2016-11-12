@@ -13,6 +13,7 @@ struct SVertexP3N
 {
 	glm::vec3 position;
 	glm::vec3 normal;
+	glm::vec3 color;
 
 	SVertexP3N() = default;
 	SVertexP3N(const glm::vec3 &position)
@@ -35,10 +36,15 @@ public:
 	void Update(float) final {}
 	void Draw() const final;
 	void ChangeMode();
-
+	void ChangeColorMode();
+private:
+	void CalculateColor();
 private:
 	Function2D m_fn;
 	std::vector<SVertexP3N> m_vertices;
 	std::vector<uint32_t> m_indicies;
+	std::vector<glm::vec3> m_colors;
+	glm::vec2 m_range;
 	bool m_isFrame = false;
+	bool m_isColor = false;
 };

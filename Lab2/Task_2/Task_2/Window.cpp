@@ -17,23 +17,7 @@ namespace
 	const float CAMERA_INITIAL_ROTATION = 0;
 	const float CAMERA_INITIAL_DISTANCE = 5.f;
 
-	// включает смешивание цветов
-	// перед выводом полупрозрачных тел
-	void enableBlending()
-	{
-		glDepthMask(GL_FALSE);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
-
-	// отключает смешивание цветов
-	// перед выводом непрозрачных тел
-	void disableBlending()
-	{
-		glDepthMask(GL_TRUE);
-		glDisable(GL_BLEND);
-	}
-
+	
 	glm::vec3 GetPointOfMobiusStripFromXY(float u, float v)
 	{
 		float x = (1.f + (v / 2.f * cosf(u / 2.f))) * cosf(u);
@@ -42,21 +26,22 @@ namespace
 		return glm::vec3(x, y, z);
 	}
 
-
 	void SetupOpenGLState()
 	{
 		// включаем механизмы трёхмерного мира.
 		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
 		glFrontFace(GL_CCW);
 		glCullFace(GL_BACK);
 
+		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 		// включаем систему освещения
 		glEnable(GL_LIGHTING);
+		
 
 		// включаем применение цветов вершин как цвета материала.
 		glEnable(GL_COLOR_MATERIAL);
-		glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+		
 	}
 }
 
@@ -141,6 +126,10 @@ void CWindow::OnKeyUp(const SDL_KeyboardEvent &event)
 	if (event.keysym.sym == SDLK_SPACE)
 	{
 		m_surface.ChangeMode();
+	}
+	else if (event.keysym.sym == SDLK_c)
+	{
+		m_surface.ChangeColorMode();
 	}
 }
 
