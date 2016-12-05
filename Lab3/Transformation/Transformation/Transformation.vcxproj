@@ -169,7 +169,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TwistValueController.h" />
-    <ClInclude Include="WhitneyUmbrella.h" />
+    <ClInclude Include="Paraboloid.h" />
     <ClInclude Include="WindowClient.h" />
   </ItemGroup>
   <ItemGroup>
@@ -191,20 +191,10 @@
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TwistValueController.cpp" />
-    <ClCompile Include="WhitneyUmbrella.cpp" />
+    <ClCompile Include="Paraboloid.cpp" />
     <ClCompile Include="WindowClient.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\canabola.vert" />
-    <None Include="res\checkers-and-triangle.frag" />
-    <None Include="res\checkers.frag" />
-    <None Include="res\cloud_earth.frag" />
-    <None Include="res\cloud_earth.vert" />
-    <None Include="res\cloud_earth_robust.frag" />
-    <None Include="res\cloud_earth_robust.vert" />
-    <None Include="res\copytexture.frag" />
-    <None Include="res\copytexture.vert" />
-    <None Include="res\lambert-phong.vert" />
     <None Include="res\lambert.frag" />
     <None Include="res\phong.frag" />
     <None Include="res\twist.vert" />

@@ -87,7 +87,7 @@
     <ClInclude Include="src\Window.h">
       <Filter>Файлы ресурсов\src</Filter>
     </ClInclude>
-    <ClInclude Include="WhitneyUmbrella.h">
+    <ClInclude Include="Paraboloid.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
@@ -149,42 +149,12 @@
     <ClCompile Include="src\Window.cpp">
       <Filter>Файлы ресурсов\src</Filter>
     </ClCompile>
-    <ClCompile Include="WhitneyUmbrella.cpp">
+    <ClCompile Include="Paraboloid.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\canabola.vert">
-      <Filter>Файлы ресурсов\res</Filter>
-    </None>
-    <None Include="res\checkers.frag">
-      <Filter>Файлы ресурсов\res</Filter>
-    </None>
-    <None Include="res\checkers-and-triangle.frag">
-      <Filter>Файлы ресурсов\res</Filter>
-    </None>
-    <None Include="res\cloud_earth.frag">
-      <Filter>Файлы ресурсов\res</Filter>
-    </None>
-    <None Include="res\cloud_earth.vert">
-      <Filter>Файлы ресурсов\res</Filter>
-    </None>
-    <None Include="res\cloud_earth_robust.frag">
-      <Filter>Файлы ресурсов\res</Filter>
-    </None>
-    <None Include="res\cloud_earth_robust.vert">
-      <Filter>Файлы ресурсов\res</Filter>
-    </None>
-    <None Include="res\copytexture.frag">
-      <Filter>Файлы ресурсов\res</Filter>
-    </None>
-    <None Include="res\copytexture.vert">
-      <Filter>Файлы ресурсов\res</Filter>
-    </None>
     <None Include="res\lambert.frag">
-      <Filter>Файлы ресурсов\res</Filter>
-    </None>
-    <None Include="res\lambert-phong.vert">
       <Filter>Файлы ресурсов\res</Filter>
     </None>
     <None Include="res\phong.frag">
