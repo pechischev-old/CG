@@ -2,45 +2,33 @@ uniform float TWIST;
 varying vec3 vertex;
 varying vec3 normal;
 
+float GetSurfaceY(float x, float z, float step)
+{
+	return mix(x * x + z * z, x * x - z * z, step) - 10.0;
+}
+
+vec4 GetSurfaceVertex(float x, float z, float w, float step)
+{
+	return vec4(x, GetSurfaceY(x, z, step), z, w);
+}
+
 void main()
 { 
-	float a = abs(TWIST) / 2.0;
+	float phase = abs(TWIST) / 2.0;
 
-    vec4 twistedCoord = vec4(
-        gl_Vertex.x,
-        (gl_Vertex.x * gl_Vertex.x + gl_Vertex.z * gl_Vertex.z) * a + (gl_Vertex.x * gl_Vertex.x - gl_Vertex.z * gl_Vertex.z) * (1 - a) - 10.0,
-        gl_Vertex.z,
-        gl_Vertex.w
-    );
+    vec4 twistedCoord = GetSurfaceVertex(gl_Vertex.x, gl_Vertex.z, gl_Vertex.w, phase);
 
     vec4 position = gl_ModelViewProjectionMatrix * twistedCoord;
  
-	vertex = vec3(gl_ModelViewMatrix * twistedCoord);
+	vec4 twistedCoord1 = GetSurfaceVertex(gl_Vertex.x + 0.1, gl_Vertex.z, gl_Vertex.w, phase);
+	vec4 twistedCoord2 = GetSurfaceVertex(gl_Vertex.x, gl_Vertex.z + 0.1, gl_Vertex.w, phase);
 
-
-	float u = gl_Vertex.x + 0.1;
-	float v = gl_Vertex.z + 0.1;
-
-	vec4 twistedCoord1 = vec4(
-        u,
-        (u * u + gl_Vertex.z * gl_Vertex.z) * a + (u * u - gl_Vertex.z * gl_Vertex.z) * (1 - a) - 10.0,
-        gl_Vertex.z,
-        gl_Vertex.w
-    );
-
-	 vec4 twistedCoord2 = vec4(
-        gl_Vertex.x,
-        (gl_Vertex.x * gl_Vertex.x + v * v) * a + (gl_Vertex.x * gl_Vertex.x - v * v) * (1 - a) - 10.0,
-        v,
-        gl_Vertex.w
-    );
-
-	vec3 v1 = vec3(twistedCoord1.x, twistedCoord1.y, twistedCoord1.z) - vec3(twistedCoord.x, twistedCoord.y, twistedCoord.z);
-	vec3 v2 = vec3(twistedCoord2.x, twistedCoord2.y, twistedCoord2.z) - vec3(twistedCoord.x, twistedCoord.y, twistedCoord.z);
-
+	vec3 v1 = twistedCoord1.xyz - twistedCoord.xyz;
+	vec3 v2 = twistedCoord2.xyz - twistedCoord.xyz;
 	vec3 norm = normalize(cross(v1, v2));
-	normal = normalize(gl_NormalMatrix * norm);
 
+	vertex = vec3(gl_ModelViewMatrix * twistedCoord);	
+	normal = normalize(gl_NormalMatrix * norm);
     gl_Position = position;
     gl_FrontColor = (position + vec4(1.0)) * 0.5;
 }

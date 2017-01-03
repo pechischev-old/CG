@@ -33,9 +33,6 @@
     <ClInclude Include="TwistValueController.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="WhitneyUmbrella.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="WindowClient.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -86,6 +83,12 @@
     </ClInclude>
     <ClInclude Include="src\Window.h">
       <Filter>Файлы ресурсов\src</Filter>
+    </ClInclude>
+    <ClInclude Include="Canabola.h">
+      <Filter>Файлы исходного кода</Filter>
+    </ClInclude>
+    <ClInclude Include="WhitneyUmbrella.h">
+      <Filter>Файлы исходного кода</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -140,13 +143,16 @@
     <ClCompile Include="TwistValueController.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="WhitneyUmbrella.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="WindowClient.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Canabola.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="WhitneyUmbrella.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
@@ -185,6 +191,9 @@
       <Filter>Файлы ресурсов\res</Filter>
     </None>
     <None Include="res\twist.vert">
+      <Filter>Файлы ресурсов\res</Filter>
+    </None>
+    <None Include="res\canabola.vert">
       <Filter>Файлы ресурсов\res</Filter>
     </None>
   </ItemGroup>

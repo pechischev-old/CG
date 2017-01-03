@@ -3,8 +3,8 @@
 
 namespace
 {
-const float MIN_TWIST = -2.f;
-const float MAX_TWIST = 2.f;
+const float MIN_TWIST = -1.f;
+const float MAX_TWIST = 1.f;
 const float NEXT_TWIST_STEP = 0.2f;
 const float TWIST_CHANGE_SPEED = 1.f;
 }

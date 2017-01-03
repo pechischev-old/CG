@@ -7,7 +7,7 @@ int main(int, char *[])
     try
     {
         CWindow window;
-        window.Show("Cannabola", {800, 600});
+        window.Show("Canabola", {800, 600});
         CWindowClient client(window);
         window.DoMainLoop();
     }

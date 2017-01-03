@@ -7,7 +7,6 @@ void main()
     // calculate sin(angle) and cos(angle)
     float sa = sin(angle);
     float ca = cos(angle);
-	//float radius = (1+sin(angle))*(1+0.9*cos(8*angle))*(1+0.1*cos(24*angle))*(0.5+0.05*cos(140*angle));
     /*
       Rotate vertex around Y axis:
       x' = x * cos(angle) - z * sin(angle)
@@ -15,13 +14,12 @@ void main()
       z' = x * sin(angle) + z * cos(angle);
       w' = w;
     */
-	vec4 twistedCoord = vec4(
-        radius * ca,
-        radius * sa,
-        gl_Vertex.z,
+    vec4 twistedCoord = vec4(
+        gl_Vertex.x * ca - gl_Vertex.z * sa,
+        gl_Vertex.y,
+        gl_Vertex.x * sa + gl_Vertex.z * ca,
         gl_Vertex.w
     );
-	
     vec4 position = gl_ModelViewProjectionMatrix * twistedCoord;
     // Transform twisted coordinate
     gl_Position = position;

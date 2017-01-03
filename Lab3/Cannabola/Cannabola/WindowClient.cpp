@@ -21,7 +21,7 @@ void SetupOpenGLState()
 
 CWindowClient::CWindowClient(CWindow &window)
     : CAbstractWindowClient(window)
-    , m_umbrellaObj(SPHERE_PRECISION, SPHERE_PRECISION)
+    , m_umbrellaObj(0, 2.f * M_PI)
     , m_camera(CAMERA_INITIAL_ROTATION, CAMERA_INITIAL_DISTANCE)
     , m_sunlight(GL_LIGHT0)
     , m_lamp(GL_LIGHT1)
@@ -50,7 +50,7 @@ CWindowClient::CWindowClient(CWindow &window)
     m_umbrellaMat.SetDiffuse(DARK_BLUE_RGBA);
     m_umbrellaMat.SetAmbient(DARK_BLUE_RGBA * AMBIENT_SCALE);
 
-    const std::string twistShader = CFilesystemUtils::LoadFileAsString("res/twist.vert");
+    const std::string twistShader = CFilesystemUtils::LoadFileAsString("res/canabola.vert");
     m_programTwist.CompileShader(twistShader, ShaderType::Vertex);
     m_programTwist.Link();
 
@@ -79,23 +79,14 @@ void CWindowClient::OnDrawWindow()
     m_lamp.Setup();
     m_umbrellaMat.Setup();
 
-    // Если программа активна, используем её и рисуем поверхность
-    // в режиме Wireframe.
-    if (m_programEnabled)
-    {
-        m_programTwist.Use();
-        CProgramUniform twist = m_programTwist.FindUniform("TWIST");
-        twist = m_twistController.GetCurrentValue();
+    m_programTwist.Use();
+    CProgramUniform twist = m_programTwist.FindUniform("TWIST");
+    twist = m_twistController.GetCurrentValue();
 
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        m_umbrellaObj.Draw();
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    }
-    else
-    {
-        m_programFixed.Use();
-        m_umbrellaObj.Draw();
-    }
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    m_umbrellaObj.Draw();
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+   
 }
 
 void CWindowClient::OnKeyDown(const SDL_KeyboardEvent &event)
@@ -111,12 +102,6 @@ void CWindowClient::OnKeyUp(const SDL_KeyboardEvent &event)
     if (m_camera.OnKeyUp(event))
     {
         return;
-    }
-    switch (event.keysym.sym)
-    {
-    case SDLK_SPACE:
-        m_programEnabled = !m_programEnabled;
-        break;
     }
 }
 
