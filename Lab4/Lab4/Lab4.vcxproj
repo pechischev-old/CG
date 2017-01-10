@@ -146,7 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd_party\tinyxml2.h" />
-    <ClInclude Include="Bodies.h" />
     <ClInclude Include="libchapter3.h" />
     <ClInclude Include="Renderer3D.h" />
     <ClInclude Include="src\AbstractWindowClient.h" />
@@ -155,8 +154,6 @@
     <ClInclude Include="src\BufferObject.h" />
     <ClInclude Include="src\FilesystemUtils.h" />
     <ClInclude Include="src\FloatRect.h" />
-    <ClInclude Include="src\IActor.h" />
-    <ClInclude Include="src\ICollidableObject.h" />
     <ClInclude Include="src\IRenderer3D.h" />
     <ClInclude Include="src\libutil_private.h" />
     <ClInclude Include="src\Lights.h" />
@@ -176,7 +173,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rd_party\tinyxml2.cpp" />
-    <ClCompile Include="Bodies.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer3D.cpp" />
     <ClCompile Include="src\AbstractWindowClient.cpp" />

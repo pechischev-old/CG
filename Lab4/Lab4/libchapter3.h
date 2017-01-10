@@ -6,10 +6,10 @@
 #include "src/Lights.h"
 #include "src/BufferObject.h"
 #include "src/ArrayObject.h"
-#include "src/IActor.h"
+//#include "src/IActor.h"
 #include "src/ActorCamera.h"
 #include "src/IRenderer3D.h"
-#include "src/ICollidableObject.h"
+//#include "src/ICollidableObject.h"
 
 #include "src/Texture2D.h"
 #include "src/Transform3D.h"

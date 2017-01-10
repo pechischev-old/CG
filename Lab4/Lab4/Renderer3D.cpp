@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Renderer3D.h"
-//#include "ProgramContext.h"
 
 
 CRenderer3D::CRenderer3D(CVertexAttribute const & vertexAttr, CVertexAttribute const & normalAttr, CVertexAttribute const & texCoordAttr)
@@ -8,7 +7,6 @@ CRenderer3D::CRenderer3D(CVertexAttribute const & vertexAttr, CVertexAttribute c
 	, m_normalAttr(normalAttr)
 	, m_texCoordAttr(texCoordAttr)
 {
-	//m_context.Use();
 	m_vertexAttr.EnablePointer();
 	m_normalAttr.EnablePointer();
 	m_texCoordAttr.EnablePointer();

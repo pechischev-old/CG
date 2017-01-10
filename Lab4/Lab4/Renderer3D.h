@@ -15,7 +15,6 @@ public:
 	void SetNormalOffset(size_t offset, size_t stride) override;
 
 private:
-	//CProgramContext &m_context;
 	CVertexAttribute m_vertexAttr;
 	CVertexAttribute m_normalAttr;
 	CVertexAttribute m_texCoordAttr;

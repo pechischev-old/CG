@@ -18,8 +18,5 @@ public:
 
 private:
 	CMeshP3NT2 m_mesh;
-	std::vector<SVertexP3NT2> m_surfaceData;
-	glm::ivec2 m_size;
-
 };
 

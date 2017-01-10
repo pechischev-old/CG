@@ -132,7 +132,6 @@ void CWindowClient::SetupView(const glm::ivec2 &size)
 	m_projection = glm::perspective(fieldOfView, aspect, zNear, zFar);
 
 	glViewport(0, 0, size.x, size.y);
-	
 }
 
 void CWindowClient::SetupLight()

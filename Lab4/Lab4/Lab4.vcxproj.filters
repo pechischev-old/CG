@@ -54,12 +54,6 @@
     <ClInclude Include="src\FloatRect.h">
       <Filter>Файлы ресурсов\src</Filter>
     </ClInclude>
-    <ClInclude Include="src\IActor.h">
-      <Filter>Файлы ресурсов\src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ICollidableObject.h">
-      <Filter>Файлы ресурсов\src</Filter>
-    </ClInclude>
     <ClInclude Include="src\IRenderer3D.h">
       <Filter>Файлы ресурсов\src</Filter>
     </ClInclude>
@@ -101,9 +95,6 @@
     </ClInclude>
     <ClInclude Include="libchapter3.h">
       <Filter>Файлы ресурсов</Filter>
-    </ClInclude>
-    <ClInclude Include="Bodies.h">
-      <Filter>Файлы исходного кода</Filter>
     </ClInclude>
     <ClInclude Include="Renderer3D.h">
       <Filter>Заголовочные файлы</Filter>
@@ -172,9 +163,6 @@
     </ClCompile>
     <ClCompile Include="3rd_party\tinyxml2.cpp">
       <Filter>Файлы ресурсов</Filter>
-    </ClCompile>
-    <ClCompile Include="Bodies.cpp">
-      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Renderer3D.cpp">
       <Filter>Файлы исходного кода</Filter>

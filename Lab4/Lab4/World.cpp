@@ -11,7 +11,6 @@ namespace
 	glm::ivec3 GetPixel(const SDLSurfacePtr & surface, unsigned x, unsigned y)
 	{
 		int bpp = surface->format->BytesPerPixel;
-		//assert(bpp == 3);
 		Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
 
 		if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
@@ -120,19 +119,12 @@ CWorld::CWorld(std::string const & pathHeightMap, std::string const & pathNormal
 	float scale = 100.f;
 	
 	CLandscapeTesselator tesselator;
-	
-
 	tesselator.Tesselate(pathHeightMap, pathNormalMap, 100.f);
-	m_surfaceData = tesselator.vertices;
-	m_size = tesselator.size;
+	
 	m_mesh.Copy(tesselator);
-
 }
 
 void CWorld::Draw(IRenderer3D &renderer) const
 {
 	m_mesh.Draw(renderer);
 }
-
-
-
