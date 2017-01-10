@@ -36,8 +36,5 @@ private:
 	SLightSource m_light0;
 
 	CTexture2DUniquePtr m_grassTexture;
-	CTexture2DUniquePtr m_grassSpecularTexture;
-	CTexture2DUniquePtr m_grassNormalTexture;
-	CTexture2DUniquePtr m_diffuseTexture;
 	CShaderProgram m_programEarth;
 };

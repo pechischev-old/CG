@@ -1,7 +1,8 @@
 #pragma once
 #include "libchapter3.h"
 #include "World.h"
-#include <vector>
+#include "ProgramContext.h" 
+
 
 class CWindowClient : public CAbstractWindowClient
 {
@@ -19,17 +20,12 @@ protected:
 	void OnDragEnd(const glm::vec2 &pos) override;
 
 private:
-    void CheckOpenGLVersion();
     void SetupView(const glm::ivec2 &size);
-	void SetupLight();
-	void Use();
-
-	glm::mat4 m_projection;
+	void SetupLight0();
+	
+	CProgramContext m_context;
 
     CCamera m_camera;
     CDirectedLightSource m_sunlight;
 	CWorld m_world;
-
-	CTexture2DUniquePtr m_grassTexture;
-	CShaderProgram m_programEarth;
 };

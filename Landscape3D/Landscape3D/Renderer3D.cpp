@@ -1,12 +1,15 @@
 #include "stdafx.h"
 #include "Renderer3D.h"
+#include "ProgramContext.h"
 
 
-CRenderer3D::CRenderer3D(CVertexAttribute const & vertexAttr, CVertexAttribute const & normalAttr, CVertexAttribute const & texCoordAttr)
-	: m_vertexAttr(vertexAttr)
-	, m_normalAttr(normalAttr)
-	, m_texCoordAttr(texCoordAttr)
+CRenderer3D::CRenderer3D(CProgramContext & context)
+	: m_context(context)
+	, m_vertexAttr(context.GetPositionAttr())
+	, m_normalAttr(context.GetNormalAttr())
+	, m_texCoordAttr(context.GetTexCoordAttr())
 {
+	m_context.Use();
 	m_vertexAttr.EnablePointer();
 	m_normalAttr.EnablePointer();
 	m_texCoordAttr.EnablePointer();

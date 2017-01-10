@@ -13,7 +13,7 @@ CProgramContext::CProgramContext()
 {
 	CTexture2DLoader loader;
 
-	m_diffuseTexture = loader.Load("res/texture_diffuse.jpg");
+	m_grassTexture = loader.Load("res/sand.jpg");
 
 	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/phong.vert");
 	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/phong.frag");
@@ -25,15 +25,14 @@ CProgramContext::CProgramContext()
 void CProgramContext::Use()
 {
 	glActiveTexture(GL_TEXTURE1);
-	m_diffuseTexture->Bind();
+	m_grassTexture->Bind();
 
 
 	m_programEarth.Use();
-	m_programEarth.FindUniform("material.diffuse") = glm::vec4(0.f, 0.353f, 0.051f, 1);
+	m_programEarth.FindUniform("material.diffuse") = glm::vec4(0.5f, 0.353f, 0.051f, 1);
 	m_programEarth.FindUniform("material.specular") = glm::vec4(0, 0, 0, 1);
-	m_programEarth.FindUniform("material.emissive") = glm::vec4(0, 0, 0, 1);
+	m_programEarth.FindUniform("material.emissive") = glm::vec4(0.1, 0.3, 0, 1);
 	m_programEarth.FindUniform("textureDiffuseMap") = 1; 
-
 
 	const glm::mat4 mv = m_view * m_model;
 	m_programEarth.FindUniform("view") = m_view;

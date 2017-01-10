@@ -30,44 +30,13 @@ CWindowClient::CWindowClient(CWindow &window)
 	, m_world("res/12.png", "res/12_normals.png")
 {
     window.SetBackgroundColor(SKYBLUE_RGBA);
-    CheckOpenGLVersion();
     SetupOpenGLState();
-	SetupLight();
 
-	CTexture2DLoader loader;
+	m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
+	m_sunlight.SetDiffuse(WHITE_RGBA);
+	m_sunlight.SetAmbient(WHITE_RGBA);
+	m_sunlight.SetSpecular(WHITE_RGBA);
 
-	m_grassTexture = loader.Load("res/sand.jpg");
-
-	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/phong.vert");
-	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/phong.frag");
-	m_programEarth.CompileShader(vertShader, ShaderType::Vertex);
-	m_programEarth.CompileShader(fragShader, ShaderType::Fragment);
-	m_programEarth.Link();
-}
-
-void CWindowClient::Use()
-{
-	glActiveTexture(GL_TEXTURE1);
-	m_grassTexture->Bind();
-
-
-	m_programEarth.Use();
-	m_programEarth.FindUniform("material.diffuse") = glm::vec4(1.f, 0.353f, 0.051f, 1);
-	m_programEarth.FindUniform("material.specular") = glm::vec4(0, 0.3, 0, 1);
-	m_programEarth.FindUniform("material.emissive") = glm::vec4(0, 0, 0, 1);
-	m_programEarth.FindUniform("textureDiffuseMap") = 1;
-
-
-	const glm::mat4 mv = m_camera.GetViewTransform() * glm::mat4();
-	m_programEarth.FindUniform("view") = m_camera.GetViewTransform();
-	m_programEarth.FindUniform("modelView") = mv;
-	m_programEarth.FindUniform("normalModelView") = glm::transpose(glm::inverse(mv));
-	m_programEarth.FindUniform("projection") = m_projection;
-
-
-	m_programEarth.FindUniform("light0.position") = m_sunlight.GetUniformPosition();
-	m_programEarth.FindUniform("light0.diffuse") = m_sunlight.GetDiffuse();
-	m_programEarth.FindUniform("light0.specular") = m_sunlight.GetSpecular();
 }
 
 void CWindowClient::OnUpdateWindow(float deltaSeconds)
@@ -79,13 +48,10 @@ void CWindowClient::OnDrawWindow()
 {
     SetupView(GetWindow().GetWindowSize());
     m_sunlight.Setup();
+	SetupLight0();
+	
 
-	CVertexAttribute vertexAttr = m_programEarth.FindAttribute("vertex");
-	CVertexAttribute normalAttr = m_programEarth.FindAttribute("normal");
-	CVertexAttribute texCoordAttr = m_programEarth.FindAttribute("textureUV");
-
-	Use();
-	CRenderer3D renderer(vertexAttr, normalAttr, texCoordAttr);
+	CRenderer3D renderer(m_context);
 	
 	m_world.Draw(renderer);
 }
@@ -106,15 +72,6 @@ void CWindowClient::OnKeyUp(const SDL_KeyboardEvent &event)
     }
 }
 
-void CWindowClient::CheckOpenGLVersion()
-{
-    // В OpenGL 2.0 шейдерные программы вошли в спецификацию API.
-    if (!GLEW_VERSION_2_0)
-    {
-        throw std::runtime_error("Sorry, but OpenGL 3.2 is not available");
-    }
-}
-
 void CWindowClient::SetupView(const glm::ivec2 &size)
 {
     glViewport(0, 0, size.x, size.y);
@@ -128,17 +85,21 @@ void CWindowClient::SetupView(const glm::ivec2 &size)
 	const float aspect = float(size.x) / float(size.y);
 	const float zNear = 1.f;
 	const float zFar = 10000.f;
-	m_projection = glm::perspective(fieldOfView, aspect, zNear, zFar);
-
+	const glm::mat4 projection = glm::perspective(fieldOfView, aspect, zNear, zFar);
+	
 	glViewport(0, 0, size.x, size.y);
+
+	m_context.SetProjection(projection);
+	m_context.SetView(view);
 }
 
-void CWindowClient::SetupLight()
+void CWindowClient::SetupLight0()
 {
-	m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
-	m_sunlight.SetDiffuse(WHITE_RGBA);
-	m_sunlight.SetAmbient(WHITE_RGBA);
-	m_sunlight.SetSpecular(WHITE_RGBA);
+	CProgramContext::SLightSource light0;
+	light0.specular = m_sunlight.GetSpecular();
+	light0.diffuse = m_sunlight.GetDiffuse();
+	light0.position = m_sunlight.GetUniformPosition();
+	m_context.SetLight0(light0);
 }
 
 void CWindowClient::OnDragBegin(const glm::vec2 &pos)
