@@ -16,5 +16,18 @@ CWorld::CWorld(std::string const & pathHeightMap, std::string const & pathNormal
 
 void CWorld::Draw(IRenderer3D &renderer) const
 {
+	auto mode = GL_FILL;
+	if (m_isFrame)
+	{
+		mode = GL_LINE;
+	}
+
+	glPolygonMode(GL_FRONT_AND_BACK, mode);
+
 	m_mesh.Draw(renderer);
+}
+
+void CWorld::ChangeMode()
+{
+	m_isFrame = !m_isFrame;
 }

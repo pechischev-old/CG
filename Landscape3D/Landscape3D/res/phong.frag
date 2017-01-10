@@ -26,13 +26,9 @@ struct Material
 
 const float SHININESS = 10.0;
 const float AMBIENT_DIFFUSE = 0.2;
-const vec4 RGBA_RED = vec4(1, 0, 0, 1);
+
 uniform LightSource light0;
 uniform Material material;
-uniform sampler2D diffuseMap;
-uniform sampler2D specularMap;
-uniform sampler2D emissiveMap;
-uniform sampler2D normalMap;
 uniform sampler2D textureDiffuseMap;
 uniform mat4 view;
 
@@ -40,41 +36,25 @@ in vec2 fragTextureUV;
 in vec3 fragNormal;
 in vec3 fragPosInViewSpace;
 
-// Returns direction from surface fragment to light source.
-// Light can be either directed or undirected.
-// TODO: calculate attenuation of directed light.
-vec3 GetLight0Direction()
-{
-    // For spotlight, it's position of the light0 in the view space.
-    // For directed light, it's light direction in the view space.
-    vec4 lightInViewSpace = view * light0.position;
-
-    // We should return:
-    //   - `-lightInViewSpace.xyz` for directed light
-    //   - `lightInViewSpace.xyz - fragPosInViewSpace` for spotlight
-    // Both results should be normalized,
-    // and we avoid `if` to improve perfomance.
-    return normalize(
-        -lightInViewSpace.xyz
-        + light0.position.w
-        * (2.0 * lightInViewSpace.xyz - fragPosInViewSpace));
-}
 
 LightFactors GetLight0Factors()
 {
-    vec3 normal = normalize(fragNormal);
+    vec3 viewDirection = normalize(-fragPosInViewSpace);
+	vec3 fixedNormal = normalize(fragNormal);
 
-    // Direction from surface fragment to light source.
-    vec3 lightDirection = GetLight0Direction();
-    // Reflected ray direction.
-    vec3 reflectDirection = normalize(-reflect(lightDirection, normal));
-    // Direction from surface fragment to camera (eye).
-    vec3 eyeDirection = normalize(-fragPosInViewSpace);
+    // Fix lightDirection for both directed and undirected light sources.
+    vec3 delta = light0.position.w * viewDirection;
+    vec4 lightPosInViewSpace = view * light0.position;
+    vec3 lightDirection = normalize(lightPosInViewSpace.xyz + delta);
+
+    vec3 reflectDirection = normalize(-reflect(lightDirection, fixedNormal));
+
+	vec3 eyeDirection = normalize(-fragPosInViewSpace);
 
     LightFactors result;
-    result.diffuse = max(dot(normal, lightDirection), AMBIENT_DIFFUSE);
-    float base = max(dot(reflectDirection, eyeDirection), 0.0);
-    result.specular = max(pow(base, SHININESS), 0.0);
+    result.diffuse = max(dot(fixedNormal, viewDirection), AMBIENT_DIFFUSE);
+    float base = max(dot(reflectDirection, viewDirection), 0.0);
+    result.specular = pow(base, SHININESS);
 
     result.diffuse = clamp(result.diffuse, 0.0, 1.0);
     result.specular = clamp(result.specular, 0.0, 1.0);
@@ -85,22 +65,11 @@ LightFactors GetLight0Factors()
 void main()
 {
     LightFactors factors = GetLight0Factors();
-
-    // Get material diffuse color by fetching the texture
-    //  and adding material diffuse color.
-    
+       
     vec4 matDiffuse = material.diffuse * texture2D(textureDiffuseMap, fragTextureUV.st);
 
-    // Get material specular color by fetching the texture
-    //  and adding material diffuse color.
-    vec4 matSpecular = material.specular + texture2D(specularMap, fragTextureUV.st);
-
-    // Get material emissive color by fetching the texture
-    //  and adding material diffuse color.
-    vec4 matEmissive = material.emissive + texture2D(emissiveMap, fragTextureUV.st);
-
     vec4 diffuseIntensity = matDiffuse * factors.diffuse * light0.diffuse;
-    vec4 specularIntensity = matSpecular * factors.specular * light0.specular;
+	vec4 specularIntensity = material.specular * factors.specular * light0.specular;
 
-    gl_FragColor = diffuseIntensity + specularIntensity + matDiffuse;
+    gl_FragColor = diffuseIntensity + specularIntensity + material.emissive;
 }

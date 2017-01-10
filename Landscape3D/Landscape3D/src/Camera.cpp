@@ -6,7 +6,7 @@
 namespace
 {
 	const float ROTATION_SPEED_RADIANS = 3.f;
-	const float MAX_SPEED = 500.f;
+	const float MAX_SPEED = 1000.f;
 
 	bool ShouldTrackKeyPressed(const SDL_Keysym &key)
 	{
@@ -14,7 +14,7 @@ namespace
 		{
 		case SDLK_UP:
 		case SDLK_DOWN:
-		case SDLK_SPACE:
+
 		case SDLK_w:
 		case SDLK_a:
 		case SDLK_s:

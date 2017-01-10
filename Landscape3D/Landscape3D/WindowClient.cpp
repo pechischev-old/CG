@@ -25,7 +25,7 @@ void SetupOpenGLState()
 
 CWindowClient::CWindowClient(CWindow &window)
 	: CAbstractWindowClient(window)
-	, m_camera({ 0, 2000, 0 }, {M_PI, 0, 0})
+	, m_camera({ 5000, 3000, 10000 }, {M_PI, 0, 0})
 	, m_sunlight(GL_LIGHT0)
 	, m_world("res/12.png", "res/12_normals.png")
 {
@@ -50,7 +50,6 @@ void CWindowClient::OnDrawWindow()
     m_sunlight.Setup();
 	SetupLight0();
 	
-
 	CRenderer3D renderer(m_context);
 	
 	m_world.Draw(renderer);
@@ -70,6 +69,10 @@ void CWindowClient::OnKeyUp(const SDL_KeyboardEvent &event)
     {
         return;
     }
+	if (event.keysym.sym == SDLK_SPACE)
+	{
+		m_world.ChangeMode();
+	}
 }
 
 void CWindowClient::SetupView(const glm::ivec2 &size)

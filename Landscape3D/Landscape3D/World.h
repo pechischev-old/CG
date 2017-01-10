@@ -16,7 +16,10 @@ public:
 
 	void Draw(IRenderer3D &renderer)const;
 
+	void ChangeMode();
+
 private:
 	CMeshP3NT2 m_mesh;
+	bool m_isFrame = false;
 };
 
