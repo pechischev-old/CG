@@ -1,8 +1,6 @@
 #pragma once
 #include "libchapter3.h"
 #include "World.h"
-#include "Bodies.h"
-#include "ProgramContext.h"
 #include <vector>
 
 class CWindowClient : public CAbstractWindowClient
@@ -28,13 +26,9 @@ private:
 
 	glm::mat4 m_projection;
 
-	CArrayObject m_defaultVAO;
-
     CCamera m_camera;
     CDirectedLightSource m_sunlight;
-	CRhombicuboctahedron m_body;
 	CWorld m_world;
-	CProgramContext m_programContext;
 
 	CTexture2DUniquePtr m_grassTexture;
 	CShaderProgram m_programEarth;

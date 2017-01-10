@@ -25,7 +25,6 @@ void SetupOpenGLState()
 
 CWindowClient::CWindowClient(CWindow &window)
 	: CAbstractWindowClient(window)
-	, m_defaultVAO(CArrayObject::do_bind_tag())
 	, m_camera({ 0, 2000, 0 }, {M_PI, 0, 0})
 	, m_sunlight(GL_LIGHT0)
 	, m_world("res/12.png", "res/12_normals.png")
@@ -34,12 +33,8 @@ CWindowClient::CWindowClient(CWindow &window)
     window.SetBackgroundColor(SKYBLUE_RGBA);
     CheckOpenGLVersion();
     SetupOpenGLState();
+	SetupLight();
 
-	m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
-	m_sunlight.SetDiffuse(WHITE_RGBA);
-	m_sunlight.SetAmbient(WHITE_RGBA);
-	m_sunlight.SetSpecular(WHITE_RGBA);
-	
 	CTexture2DLoader loader;
 
 	m_grassTexture = loader.Load("res/texture_diffuse.jpg");
@@ -58,8 +53,8 @@ void CWindowClient::Use()
 
 
 	m_programEarth.Use();
-	m_programEarth.FindUniform("material.diffuse") = glm::vec4(0.f, 0.353f, 0.051f, 1);
-	m_programEarth.FindUniform("material.specular") = glm::vec4(0, 0, 0, 1);
+	m_programEarth.FindUniform("material.diffuse") = glm::vec4(1.f, 0.353f, 0.051f, 1);
+	m_programEarth.FindUniform("material.specular") = glm::vec4(0, 0.3, 0, 1);
 	m_programEarth.FindUniform("material.emissive") = glm::vec4(0, 0, 0, 1);
 	m_programEarth.FindUniform("textureDiffuseMap") = 1;
 
@@ -86,8 +81,6 @@ void CWindowClient::OnDrawWindow()
     SetupView(GetWindow().GetWindowSize());
     m_sunlight.Setup();
 
-	SetupLight();
-
 	CVertexAttribute vertexAttr = m_programEarth.FindAttribute("vertex");
 	CVertexAttribute normalAttr = m_programEarth.FindAttribute("normal");
 	CVertexAttribute texCoordAttr = m_programEarth.FindAttribute("textureUV");
@@ -96,7 +89,6 @@ void CWindowClient::OnDrawWindow()
 	CRenderer3D renderer(vertexAttr, normalAttr, texCoordAttr);
 	
 	m_world.Draw(renderer);
-	m_body.Draw();
 }
 
 void CWindowClient::OnKeyDown(const SDL_KeyboardEvent &event)
@@ -126,9 +118,9 @@ void CWindowClient::CheckOpenGLVersion()
 
 void CWindowClient::SetupView(const glm::ivec2 &size)
 {
-    //glViewport(0, 0, size.x, size.y);
+    glViewport(0, 0, size.x, size.y);
     const glm::mat4 view = m_camera.GetViewTransform();
-    //glLoadMatrixf(glm::value_ptr(view));
+    glLoadMatrixf(glm::value_ptr(view));
 
     // Матрица перспективного преобразования вычисляется функцией
     // glm::perspective, принимающей угол обзора, соотношение ширины
@@ -140,18 +132,15 @@ void CWindowClient::SetupView(const glm::ivec2 &size)
 	m_projection = glm::perspective(fieldOfView, aspect, zNear, zFar);
 
 	glViewport(0, 0, size.x, size.y);
-
-	/*m_programContext.SetView(view);
-	m_programContext.SetProjection(m_projection);*/
+	
 }
 
 void CWindowClient::SetupLight()
 {
-	CProgramContext::SLightSource light0;
-	light0.specular = m_sunlight.GetSpecular();
-	light0.diffuse = m_sunlight.GetDiffuse();
-	light0.position = m_sunlight.GetUniformPosition();
-	m_programContext.SetLight0(light0);
+	m_sunlight.SetDirection(SUNLIGHT_DIRECTION);
+	m_sunlight.SetDiffuse(WHITE_RGBA);
+	m_sunlight.SetAmbient(WHITE_RGBA);
+	m_sunlight.SetSpecular(WHITE_RGBA);
 }
 
 void CWindowClient::OnDragBegin(const glm::vec2 &pos)

@@ -20,17 +20,6 @@ namespace
 			return{ p[2], p[1], p[0] };
 	}
 
-	glm::ivec2 GetIndex(glm::vec2 const & position, float scale)
-	{
-		const unsigned ci = int(std::roundf(std::roundf(position.x) / scale));
-		const unsigned ri = int(std::roundf(std::roundf(position.y) / scale));
-		return{ ci, ri };
-	}
-
-	unsigned GetSingleIndex(glm::ivec2 indices, glm::ivec2 size)
-	{
-		return indices.x * size.y + indices.y;
-	}
 
 	struct CLandscapeTesselator : SMeshDataP3NT2
 	{
@@ -39,16 +28,14 @@ namespace
 		const float MIN_SCALE = 1.f;
 		glm::ivec2 size;
 
-		std::string pathHeightMap;
-		std::string pathNormalMap;
-
-		void Tesselate(float scale)
+		void Tesselate(std::string const & pathHeightMap, std::string const & pathNormalMap, float scale)
 		{
-			assert(scale >= MIN_SCALE);
 			p_heightmap = CFilesystemUtils::LoadFileImage(pathHeightMap);
 			p_normalmap = CFilesystemUtils::LoadFileImage(pathNormalMap);
+
 			assert(p_heightmap->w == p_normalmap->w);
 			assert(p_heightmap->h == p_normalmap->h);
+
 			size = { p_heightmap->w, p_heightmap->h };
 			MakeVertexAttributes(scale);
 			MakeTriangleStripIndicies();
@@ -124,33 +111,28 @@ namespace
 			const float ny = float(pixel.b) / 255.f;
 			return{ nx, ny, nz };
 		}
-
-		
 	};
-
-	float NormalizeValue(float value, glm::vec2 const& range)
-	{
-		const float length = (std::abs(range.x - range.y));
-		return std::abs(range.y - value) / length;
-	}
 }
 
 CWorld::CWorld(std::string const & pathHeightMap, std::string const & pathNormalMap)
 	: m_mesh(MeshType::TriangleStrip)
 {
+	float scale = 100.f;
+	
 	CLandscapeTesselator tesselator;
-	tesselator.pathHeightMap = pathHeightMap;
-	tesselator.pathNormalMap = pathNormalMap;
-	tesselator.Tesselate(100.f);
+	
+
+	tesselator.Tesselate(pathHeightMap, pathNormalMap, 100.f);
 	m_surfaceData = tesselator.vertices;
 	m_size = tesselator.size;
 	m_mesh.Copy(tesselator);
+
 }
 
 void CWorld::Draw(IRenderer3D &renderer) const
 {
-	//glDisable(GL_CULL_FACE);
 	m_mesh.Draw(renderer);
-	//glEnable(GL_CULL_FACE);
 }
+
+
 

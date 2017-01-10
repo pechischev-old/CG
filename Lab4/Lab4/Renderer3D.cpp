@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Renderer3D.h"
-#include "ProgramContext.h"
+//#include "ProgramContext.h"
 
 
 CRenderer3D::CRenderer3D(CVertexAttribute const & vertexAttr, CVertexAttribute const & normalAttr, CVertexAttribute const & texCoordAttr)
