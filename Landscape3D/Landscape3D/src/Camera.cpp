@@ -6,9 +6,7 @@
 namespace
 {
 	const float ROTATION_SPEED_RADIANS = 3.f;
-	const float LINEAR_MOVE_SPEED = 100.f;
-	const float MIN_SPEED = -1000.f;
-	const float MAX_SPEED = 1000.f;
+	const float MAX_SPEED = 500.f;
 
 	bool ShouldTrackKeyPressed(const SDL_Keysym &key)
 	{
@@ -28,22 +26,18 @@ namespace
 		return false;
 	}
 
-	float GetThrottleChangeSpeed(std::set<unsigned> & keysPressed)
+	bool GetMoveEnable(std::set<unsigned> & keysPressed)
 	{
 		if (keysPressed.count(SDLK_UP))
 		{
-			return -LINEAR_MOVE_SPEED;
+			return true;
 		}
-		if (keysPressed.count(SDLK_DOWN))
-		{
-			return +LINEAR_MOVE_SPEED;
-		}
-		return 0;
+		return false;
 	}
 
 	bool GetBrakesEnabled(std::set<unsigned> & keysPressed)
 	{
-		if (keysPressed.count(SDLK_SPACE))
+		if (keysPressed.count(SDLK_DOWN))
 		{
 			return true;
 		}
@@ -106,15 +100,14 @@ void CCamera::Update(float deltaSec)
 	const glm::quat rotation = glm::quat_cast(glm::yawPitchRoll(yaw, pitch, roll));
 	m_direction = rotation * m_direction;
 
-	m_speed += deltaSec * GetThrottleChangeSpeed(m_keysPressed);
+	
 	if (GetBrakesEnabled(m_keysPressed))
 	{
 		m_speed = 0;
 	}
-	else
+	else if (GetMoveEnable(m_keysPressed))
 	{
-		m_speed = (m_speed > MAX_SPEED) ? MAX_SPEED : m_speed;
-		m_speed = (m_speed < MIN_SPEED) ? MIN_SPEED : m_speed;
+		m_speed = -MAX_SPEED;
 	}
 
 	const float distance = deltaSec * m_speed;
