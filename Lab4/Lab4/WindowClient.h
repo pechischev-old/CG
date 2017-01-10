@@ -26,6 +26,8 @@ private:
 	void SetupLight();
 	void Use();
 
+	glm::mat4 m_projection;
+
 	CArrayObject m_defaultVAO;
 
     CCamera m_camera;
@@ -33,4 +35,7 @@ private:
 	CRhombicuboctahedron m_body;
 	CWorld m_world;
 	CProgramContext m_programContext;
+
+	CTexture2DUniquePtr m_grassTexture;
+	CShaderProgram m_programEarth;
 };

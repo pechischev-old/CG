@@ -3,13 +3,12 @@
 #include "ProgramContext.h"
 
 
-CRenderer3D::CRenderer3D(CProgramContext &context)
-	: m_context(context)
-	, m_vertexAttr(m_context.GetPositionAttr())
-	, m_normalAttr(m_context.GetNormalAttr())
-	, m_texCoordAttr(m_context.GetTexCoordAttr())
+CRenderer3D::CRenderer3D(CVertexAttribute const & vertexAttr, CVertexAttribute const & normalAttr, CVertexAttribute const & texCoordAttr)
+	: m_vertexAttr(vertexAttr)
+	, m_normalAttr(normalAttr)
+	, m_texCoordAttr(texCoordAttr)
 {
-	m_context.Use();
+	//m_context.Use();
 	m_vertexAttr.EnablePointer();
 	m_normalAttr.EnablePointer();
 	m_texCoordAttr.EnablePointer();

@@ -106,7 +106,7 @@ void CCamera::Update(float deltaSec)
 	const glm::quat rotation = glm::quat_cast(glm::yawPitchRoll(yaw, pitch, roll));
 	m_direction = rotation * m_direction;
 
-	if (roll == 0)
+	/*if (roll == 0)
 	{
 		const glm::vec3 axis = glm::axis(m_direction);
 		const float angle = glm::angle(m_direction);
@@ -117,7 +117,7 @@ void CCamera::Update(float deltaSec)
 			m_direction = glm::angleAxis(angle, axis);
 		}
 	}
-	m_direction = glm::normalize(m_direction);
+	m_direction = glm::normalize(m_direction);*/
 
 	m_speed += deltaSec * GetThrottleChangeSpeed(m_keysPressed);
 	if (GetBrakesEnabled(m_keysPressed))

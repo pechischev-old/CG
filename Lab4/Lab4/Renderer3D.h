@@ -6,7 +6,7 @@ class CProgramContext;
 class CRenderer3D : public IRenderer3D
 {
 public:
-	CRenderer3D(CProgramContext &context);
+	CRenderer3D(CVertexAttribute const & vertexAttr, CVertexAttribute const & normalAttr, CVertexAttribute const & texCoordAttr);
 	~CRenderer3D();
 
 	// IRenderer3D interface
@@ -15,7 +15,7 @@ public:
 	void SetNormalOffset(size_t offset, size_t stride) override;
 
 private:
-	CProgramContext &m_context;
+	//CProgramContext &m_context;
 	CVertexAttribute m_vertexAttr;
 	CVertexAttribute m_normalAttr;
 	CVertexAttribute m_texCoordAttr;

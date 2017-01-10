@@ -20,12 +20,6 @@ void SetupOpenGLState()
     // включаем систему освещения с режимом двустороннего освещения
     glEnable(GL_LIGHTING);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-
-	// включаем механизмы трёхмерного мира.
-	/*glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glFrontFace(GL_CCW);
-	glCullFace(GL_BACK);*/
 }
 }
 
@@ -46,8 +40,41 @@ CWindowClient::CWindowClient(CWindow &window)
 	m_sunlight.SetAmbient(WHITE_RGBA);
 	m_sunlight.SetSpecular(WHITE_RGBA);
 	
+	CTexture2DLoader loader;
+
+	m_grassTexture = loader.Load("res/texture_diffuse.jpg");
+
+	const auto vertShader = CFilesystemUtils::LoadFileAsString("res/phong.vert");
+	const auto fragShader = CFilesystemUtils::LoadFileAsString("res/phong.frag");
+	m_programEarth.CompileShader(vertShader, ShaderType::Vertex);
+	m_programEarth.CompileShader(fragShader, ShaderType::Fragment);
+	m_programEarth.Link();
 }
 
+void CWindowClient::Use()
+{
+	glActiveTexture(GL_TEXTURE1);
+	m_grassTexture->Bind();
+
+
+	m_programEarth.Use();
+	m_programEarth.FindUniform("material.diffuse") = glm::vec4(0.f, 0.353f, 0.051f, 1);
+	m_programEarth.FindUniform("material.specular") = glm::vec4(0, 0, 0, 1);
+	m_programEarth.FindUniform("material.emissive") = glm::vec4(0, 0, 0, 1);
+	m_programEarth.FindUniform("textureDiffuseMap") = 1;
+
+
+	const glm::mat4 mv = m_camera.GetViewTransform() * glm::mat4();
+	m_programEarth.FindUniform("view") = m_camera.GetViewTransform();
+	m_programEarth.FindUniform("modelView") = mv;
+	m_programEarth.FindUniform("normalModelView") = glm::transpose(glm::inverse(mv));
+	m_programEarth.FindUniform("projection") = m_projection;
+
+
+	m_programEarth.FindUniform("light0.position") = m_sunlight.GetUniformPosition();
+	m_programEarth.FindUniform("light0.diffuse") = m_sunlight.GetDiffuse();
+	m_programEarth.FindUniform("light0.specular") = m_sunlight.GetSpecular();
+}
 
 void CWindowClient::OnUpdateWindow(float deltaSeconds)
 {
@@ -61,7 +88,12 @@ void CWindowClient::OnDrawWindow()
 
 	SetupLight();
 
-	CRenderer3D renderer(m_programContext);
+	CVertexAttribute vertexAttr = m_programEarth.FindAttribute("vertex");
+	CVertexAttribute normalAttr = m_programEarth.FindAttribute("normal");
+	CVertexAttribute texCoordAttr = m_programEarth.FindAttribute("textureUV");
+
+	Use();
+	CRenderer3D renderer(vertexAttr, normalAttr, texCoordAttr);
 	
 	m_world.Draw(renderer);
 	m_body.Draw();
@@ -95,8 +127,8 @@ void CWindowClient::CheckOpenGLVersion()
 void CWindowClient::SetupView(const glm::ivec2 &size)
 {
     //glViewport(0, 0, size.x, size.y);
-    const glm::mat4 mv = m_camera.GetViewTransform();
-    //glLoadMatrixf(glm::value_ptr(mv));
+    const glm::mat4 view = m_camera.GetViewTransform();
+    //glLoadMatrixf(glm::value_ptr(view));
 
     // Матрица перспективного преобразования вычисляется функцией
     // glm::perspective, принимающей угол обзора, соотношение ширины
@@ -105,18 +137,16 @@ void CWindowClient::SetupView(const glm::ivec2 &size)
 	const float aspect = float(size.x) / float(size.y);
 	const float zNear = 1.f;
 	const float zFar = 10000.f;
-	const glm::mat4 proj = glm::perspective(fieldOfView, aspect, zNear, zFar);
+	m_projection = glm::perspective(fieldOfView, aspect, zNear, zFar);
 
 	glViewport(0, 0, size.x, size.y);
 
-	m_programContext.SetView(mv);
-	m_programContext.SetProjection(proj);
+	/*m_programContext.SetView(view);
+	m_programContext.SetProjection(m_projection);*/
 }
 
 void CWindowClient::SetupLight()
 {
-	
-
 	CProgramContext::SLightSource light0;
 	light0.specular = m_sunlight.GetSpecular();
 	light0.diffuse = m_sunlight.GetDiffuse();
